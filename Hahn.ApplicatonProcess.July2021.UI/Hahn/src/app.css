@@ -1,0 +1,12 @@
+﻿nav ul { list-style-type: none; }
+thead th, td {
+  font-size: 1em;
+  padding: 3px !important;
+  height: 15px;
+}
+
+.rowselect {
+  background-color: rgb(96, 100, 110);
+  color: white;
+}
+/* .background-color: brown; */

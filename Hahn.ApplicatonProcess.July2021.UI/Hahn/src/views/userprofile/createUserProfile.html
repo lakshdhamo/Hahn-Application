@@ -1,0 +1,105 @@
+<template>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 offset-sm-3">
+        <div class="card mt-4 mb-4 shadow-sm">
+          <h4 class="mt-2">${title}</h2>
+            <div class="card-body">
+              <form submit.trigger="execute()">
+                <div class="form-group" validation-errors.bind="firstNameErrors"
+                  class.bind="firstNameErrors.length ? 'has-error' : ''">
+                  <label for="firstName" t="firstName"></label>
+                  <input type="text" class="form-control" class.bind="firstNameErrors.length ? 'is-invalid' : ''"
+                    id="firstName" name="firstName" placeholder=${enterFirstName}
+                    value.bind="user.firstName & validate" />
+                </div>
+
+                <div class="form-group" validation-errors.bind="lastNameErrors"
+                  class.bind="lastNameErrors.length ? 'has-error' : ''">
+                  <label for="lastName" t="lastName"></label>
+                  <input type="text" class="form-control" class.bind="lastNameErrors.length ? 'is-invalid' : ''"
+                    id="lastName" name="lastName" placeholder=${enterLastName} value.bind="user.lastName & validate" />
+                </div>
+
+                <div class="form-group" validation-errors.bind="addressErrors"
+                  class.bind="addressErrors.length ? 'has-error' : ''">
+                  <label for="address" t="address"></label>
+                  <input type="text" class="form-control" class.bind="addressErrors.length ? 'is-invalid' : ''"
+                    id="address" name="address" placeholder=${enterAddress} value.bind="user.address & validate" />
+                </div>
+
+                <div class="form-group" validation-errors.bind="emailErrors"
+                  class.bind="emailErrors.length ? 'has-error' : ''">
+                  <label for="email" t="email"></label>
+                  <input type="text" class="form-control" class.bind="emailErrors.length ? 'is-invalid' : ''" id="email"
+                    name="email" placeholder=${enterEmail} value.bind="user.email & validate" />
+                </div>
+
+                <div class="form-group" validation-errors.bind="ageErrors"
+                  class.bind="ageErrors.length ? 'has-error' : ''">
+                  <label for="age" t="age"></label>
+                  <input type="number" class="form-control" class.bind="ageErrors.length ? 'is-invalid' : ''" id="age"
+                    name="age" placeholder=${enterAge} value.bind="user.age & validate" />
+                </div>
+
+                <!-- Asset association -->
+                <h4 class="mt-2" t="associateAssetTitle">
+                  </h2>
+                  <div class="autocomplete">
+                    <input style="width: 500px;" type="text" value.bind="query & debounce:200"
+                      focus.trigger="queryChanged('')" placeholder=${enterAsset} class="border rounded">
+                    <ul style="width: 500px; height: 200px; overflow: auto" class="border rounded">
+                      <li repeat.for="ast of assets">
+                        <a href="#" click.delegate="onAssetSelect(ast)">${ast.id} - ${ast.name} - ${ast.symbol}</a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- Associated asset's list -->
+                  <div class="table-responsive mt-4">
+                    <table class="table table-bordered" datavalue.bind="selectedAssets">
+                      <thead class="thead-dark">
+                        <tr>
+                          <th t="associateAssetTitle"></th>
+                          <th t="symbol"></th>
+                          <th t="name"></th>
+                          <th t="delete"></th>
+                        </tr>
+                      </thead>
+
+                      <tbody if.bind="selectedAssets.length">
+                        <tr repeat.for="ast of selectedAssets">
+                          <td>${ast.assetId}</td>
+                          <td>${ast.symbol}</td>
+                          <td>${ast.name}</td>
+                          <td>
+                            <a class="text-danger d-flex justify-content-center" style="cursor: pointer"
+                              click.delegate="removeAsset(ast.id)"><i class="fa fa-trash"></i></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="form-footer">
+                    <button type="submit" class="btn btn-success" disabled.bind="!canSave" style="cursor: pointer">
+                      ${submitBtnCaption}
+                    </button>
+
+                    <button type="button" class="btn btn-danger" click.delegate="openDialog()" disabled.bind="!canReset"
+                      style="cursor: pointer">
+                      ${resetBtnCaption}
+                    </button>
+
+                    <div if.bind="showSuccessMsg" class="alert alert-success mt-4" role="alert">
+                      <strong>${addSuccessMsg}</strong>
+                    </div>
+
+                  </div>
+              </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

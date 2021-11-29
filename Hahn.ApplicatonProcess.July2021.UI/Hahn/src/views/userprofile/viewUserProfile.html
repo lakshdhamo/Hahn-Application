@@ -1,0 +1,126 @@
+<template>
+
+  <div class="container card mt-4 mb-4 shadow-sm">
+    <div class="container mt-2 mr-2">
+      <!-- Error alert message -->
+      <div if.bind="showError" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+        <strong>${error}</strong> ${assetDetailFetchError}
+      </div>
+
+      <!-- Edit, Delete buttons -->
+      <button type="button" class="btn btn-success float-right" style="cursor: pointer" click.delegate="EditProfile()"
+        t="btnEditProfile"></button>
+      <button type="button" class="btn btn-danger float-right  mr-2" click.delegate="DeleteProfile()"
+        style="cursor: pointer" t="btnDeleteProfile"></button>
+    </div>
+
+    <div class="row ">
+      <div class="col well">
+
+        <!-- User profile data -->
+        <form class="form-horizontal">
+          <h3 class="text-center" t="userProfile"></h3>
+          <hr />
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right font-weight-bold" t="firstName"></label><strong>:</strong>
+            <label class="control-label col-sm-7">${user.firstName}</label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right font-weight-bold" t="lastName"></label><strong>:</strong>
+            <label class="control-label col-sm-7">${user.lastName}</label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right font-weight-bold" t="address"></label><strong>:</strong>
+            <label class="control-label col-sm-7">${user.address}</label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right font-weight-bold" t="email"></label><strong>:</strong>
+            <label class="control-label col-sm-7">${user.email}</label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right font-weight-bold" t="age"></label><strong>:</strong>
+            <label class="control-label col-sm-7">${user.age}</label>
+          </div>
+        </form>
+
+        <!-- Associated Asset List -->
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover" datavalue.bind="user.assets">
+            <thead class="thead-dark">
+              <tr>
+                <th t="id"></th>
+                <th t="symbol"></th>
+                <th t="name"></th>
+              </tr>
+            </thead>
+
+            <tbody if.bind="user.assets.length">
+              <tr repeat.for="ast of user.assets" click.trigger="setSelected(ast)"
+                class="${(ast.name == selectedRowName) ? 'rowselect' : ''}">
+                <td>${ast.assetId}</td>
+                <td>${ast.symbol}</td>
+                <td>${ast.name}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <div class="col">
+        <!-- Asset details -->
+        <form class="form-horizontal">
+          <h3 class="text-center" t="assetLiveData"></h3>
+          <hr />
+          <div class="form-group">
+            <label class="control-label col-sm-4 text-right font-weight-bold">Id :</label>
+            <label class="control-label col-sm-6">${selectedAsset.id}</label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4 text-right font-weight-bold">Symbol :</label>
+            <label class="control-label col-sm-6">${selectedAsset.symbol}</label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4 text-right font-weight-bold">Name :</label>
+            <label class="control-label col-sm-6">${selectedAsset.name}</label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4 text-right font-weight-bold">Supply :</label>
+            <label class="control-label col-sm-6">${selectedAsset.supply}</label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4 text-right font-weight-bold">MaxSupply :</label>
+            <label class="control-label col-sm-6">${selectedAsset.maxSupply}</label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4 text-right font-weight-bold">MarketCapUsd :</label>
+            <label class="control-label col-sm-6">${selectedAsset.marketCapUsd}</label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4 text-right font-weight-bold">VolumeUsd24Hr :</label>
+            <label class="control-label col-sm-6">${selectedAsset.volumeUsd24Hr}</label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4 text-right font-weight-bold">PriceUsd :</label>
+            <label class="control-label col-sm-6">${selectedAsset.priceUsd}</label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4 text-right font-weight-bold">ChangePercent24Hr :</label>
+            <label class="control-label col-sm-6">${selectedAsset.changePercent24Hr}</label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4 text-right font-weight-bold">Vwap24Hr :</label>
+            <label class="control-label col-sm-6">${selectedAsset.vwap24Hr}</label>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4 text-right font-weight-bold">Explorer :</label>
+            <label class="control-label col-sm-6">${selectedAsset.explorer}</label>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</template>
