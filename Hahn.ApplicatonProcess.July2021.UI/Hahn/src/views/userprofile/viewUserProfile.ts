@@ -32,9 +32,9 @@ export class ViewUserProfile {
   private userProfile: string;
   private assetLiveData: string;
   private selectedRowName = "";
-  private assetDetailFetchError: string;
   private error: string;
   private showError = false;
+  private errorMsg: string;
 
   constructor(
     userService: UserService,
@@ -51,7 +51,6 @@ export class ViewUserProfile {
     this.btnDeleteProfile = this.localizationService.btnDeleteProfile;
     this.userProfile = this.localizationService.userProfile;
     this.assetLiveData = this.localizationService.assetLiveData;
-    this.assetDetailFetchError = this.localizationService.assetDetailFetchError;
     this.error = this.localizationService.error;
   }
 
@@ -59,7 +58,16 @@ export class ViewUserProfile {
   activate = async (params) => {
     try {
       await this.userService.getUserById(params.id)
-        .then((response) => (this.user = response));
+        .then((response) => {
+          this.user = response
+          if (response.length == 0) {
+            this.errorMsg = this.localizationService.viewErrorMsg;
+            this.showError = true;
+            setTimeout(() => {
+              this.showError = false;
+            }, 2000);
+          }
+        });
       this.notifier.done();
 
     } catch (error) {
@@ -75,10 +83,12 @@ export class ViewUserProfile {
       .then((response) => {
         this.selectedAsset = response;
         if (response.length == 0) {
+          this.errorMsg = this.localizationService.assetDetailFetchError;
           this.showError = true;
-        } setTimeout(() => {
-          this.showError = false;
-        }, 2000);
+          setTimeout(() => {
+            this.showError = false;
+          }, 2000);
+        }
       }
       );
 

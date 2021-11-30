@@ -43,7 +43,17 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
         [SwaggerResponse(400, "Model data type mismatch might happen.", typeof(UserVm))]
         public UserVm Get(int id)
         {
-            return _userManager.GetUser(id);
+            try
+            {
+                _logger.LogInformation("User/Post method fired on {date}", DateTime.Now);
+                return _userManager.GetUser(id);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error in User/Get method : {e.Message}");
+                throw new Exception(e.Message);
+            }
+            
         }
 
         // POST api/<UserController>

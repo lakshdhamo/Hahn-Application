@@ -99,6 +99,10 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         public UserVm GetUser(int id)
         {
             User user = _unitOfWork.Users.GetUserById(id);
+            if(user == null)
+            {
+                throw new Exception("User not found");
+            }
             return new UserVm
             {
                 Id = user.Id,

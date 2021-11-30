@@ -44,5 +44,6 @@
   "assetLiveData": "Asset Live Data",
   "enterAsset": "Enter asset name. (contains search)",
   "assetDetailFetchError": "Having trouble to fetch Asset details. Please try again.",
-  "error": "Error: "
+  "error": "Error: ",
+  "viewErrorMsg": "Error retrieving user."
 }

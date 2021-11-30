@@ -54,6 +54,7 @@ export class LocalizationService {
   public enterAsset: string;
   public assetDetailFetchError: string;
   public error: string;
+  public viewErrorMsg: string;
 
   constructor(i18n) {
     this.i18n = i18n;
@@ -106,6 +107,8 @@ export class LocalizationService {
     this.enterAsset = this.i18n.tr('enterAsset');
     this.assetDetailFetchError = this.i18n.tr('assetDetailFetchError');
     this.error = this.i18n.tr('error');
+    this.viewErrorMsg = this.i18n.tr('viewErrorMsg');
+    
     
 
   }

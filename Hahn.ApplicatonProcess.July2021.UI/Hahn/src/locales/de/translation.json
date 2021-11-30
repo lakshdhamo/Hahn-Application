@@ -45,5 +45,7 @@
   "assetLiveData": "Asset-Live-Daten",
   "enterAsset": "Geben Sie den Assetnamen ein. (enthält Suche)",
   "assetDetailFetchError": "Probleme beim Abrufen von Asset-Details. Bitte versuche es erneut.",
-  "error": "Fehler: "
+  "error": "Fehler: ",
+  "viewErrorMsg": "Fehler beim Abrufen des Benutzers."
+  
 }

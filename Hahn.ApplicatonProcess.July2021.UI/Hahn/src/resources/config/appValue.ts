@@ -1,3 +1,3 @@
 export const appValue = {
-  apiUrl: "https://localhost:56409/api/",
+  apiUrl: "https://localhost:44315/api/",
 };
