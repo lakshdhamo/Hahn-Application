@@ -45,6 +45,6 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.VMs
         /// <summary>
         /// User's Asset's list
         /// </summary>
-        public List<Asset> Assets { get; set; }
+        public List<AssetVm> Assets { get; set; }
     }
 }

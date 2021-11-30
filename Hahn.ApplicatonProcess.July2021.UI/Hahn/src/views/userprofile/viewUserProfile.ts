@@ -35,6 +35,8 @@ export class ViewUserProfile {
   private error: string;
   private showError = false;
   private errorMsg: string;
+  private showSuccessMsg = false;
+  private addSuccessMsg: string;
 
   constructor(
     userService: UserService,
@@ -52,6 +54,7 @@ export class ViewUserProfile {
     this.userProfile = this.localizationService.userProfile;
     this.assetLiveData = this.localizationService.assetLiveData;
     this.error = this.localizationService.error;
+    this.addSuccessMsg = this.localizationService.addSuccessMsg;
   }
 
   // Contains init operation before page load
@@ -59,13 +62,32 @@ export class ViewUserProfile {
     try {
       await this.userService.getUserById(params.id)
         .then((response) => {
-          this.user = response
           if (response.length == 0) {
             this.errorMsg = this.localizationService.viewErrorMsg;
             this.showError = true;
             setTimeout(() => {
               this.showError = false;
             }, 2000);
+          }
+          else {
+            if (params.action ) {
+              if(params.action == "Create"){
+                this.addSuccessMsg = this.localizationService.addSuccessMsg;
+              }
+              if(params.action == "Update"){
+                this.addSuccessMsg = this.localizationService.updateSuccessMsg;
+              }
+              this.showSuccessMsg = true;
+              setTimeout(() => {
+                this.showSuccessMsg = false;
+              }, 2000);
+            }
+            this.showError = false;
+            this.user = response;
+            if (this.user.assets.length > 0) {
+              this.setSelected(this.user.assets[0]);
+            }
+
           }
         });
       this.notifier.done();
@@ -85,13 +107,12 @@ export class ViewUserProfile {
         if (response.length == 0) {
           this.errorMsg = this.localizationService.assetDetailFetchError;
           this.showError = true;
-          setTimeout(() => {
-            this.showError = false;
-          }, 2000);
+        }
+        else {
+          this.showError = false;
         }
       }
       );
-
   }
 
   // Edit profile operation
@@ -112,7 +133,7 @@ export class ViewUserProfile {
         if (!result.wasCancelled) {
           await this.userService.deleteUserProfile(this.user.id);
           this.userService.user = null;
-          this.router.navigateToRoute("createProfile");
+          this.router.navigateToRoute("homePage", {action: "Delete"});
         } else {
           console.log("cancelled");
         }

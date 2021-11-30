@@ -21,8 +21,7 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
         private readonly Mock<IUserManager> _userManager;
         private readonly UserController _userController;
         private UserVm singleUser;
-        private Asset asset;
-        private List<Asset> lstAssets = new List<Asset>();
+        private List<AssetVm> lstAssets = new List<AssetVm>();
 
         public UserControllerTest()
         {
@@ -34,47 +33,17 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
         [SetUp]
         public void Setup()
         {
-
-            Asset astBitcoin = new Asset()
+            /// Prepare Assets list
+            for (int i = 0; i < 5; i++)
             {
-                AssetId = "bitcoin",
-                Name = "Bitcoin",
-                Symbol = "BTC"
-            };
-            lstAssets.Add(astBitcoin);
+                lstAssets.Add(CreateAssetVm("bitcoin", "Bitcoin", "BTC"));
+                lstAssets.Add(CreateAssetVm("ethereum", "Ethereum", "ETH"));
+                lstAssets.Add(CreateAssetVm("binance-coin", "Binance Coin", "BNB"));
+                lstAssets.Add(CreateAssetVm("tether", "Tether", "USDT"));
+                lstAssets.Add(CreateAssetVm("solana", "Solana", "SOL"));
+            }
 
-            Asset astEthereum = new Asset()
-            {
-                AssetId = "ethereum",
-                Name = "Ethereum",
-                Symbol = "ETH"
-            };
-            lstAssets.Add(astEthereum);
-
-            Asset astBinancecoin = new Asset()
-            {
-                AssetId = "binance-coin",
-                Name = "Binance Coin",
-                Symbol = "BNB"
-            };
-            lstAssets.Add(astBinancecoin);
-
-            Asset astTether = new Asset()
-            {
-                AssetId = "tether",
-                Name = "Tether",
-                Symbol = "USDT"
-            };
-            lstAssets.Add(astTether);
-
-            Asset astSolana = new Asset()
-            {
-                AssetId = "solana",
-                Name = "Solana",
-                Symbol = "SOL"
-            };
-            lstAssets.Add(astSolana);
-
+            /// Prepare User profile
             singleUser = new UserVm()
             {
                 Id = 1,
@@ -95,9 +64,10 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
 
             // Act
             var result = _userController.Get(1);
-
+            
             // Assert
-            Assert.AreEqual(1, result.Id);
+            var statusCodeResult = (IStatusCodeActionResult)result;
+            Assert.AreEqual(200, statusCodeResult.StatusCode);
         }
 
         [Test]
@@ -112,7 +82,7 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
                 Email = "1@1.com",
                 FirstName = "User1",
                 LastName = "LUser1",
-                Assets = lstAssets.Take(3).ToList<Asset>()
+                Assets = lstAssets.Take(3).ToList<AssetVm>()
             };
             _userManager.Setup(x => x.CreateUser(newsUser));
 
@@ -136,7 +106,7 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
                 Email = "1@1.com",
                 FirstName = "U",
                 LastName = "LUser1",
-                Assets = lstAssets.Take(3).ToList<Asset>()
+                Assets = lstAssets.Take(3).ToList<AssetVm>()
             };
             _userManager.Setup(x => x.CreateUser(newsUser)).Throws(new Exception("First Name should contains at least 3 Characters"));
 
@@ -160,7 +130,7 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
                 Email = "1@1.com",
                 FirstName = "User1",
                 LastName = "LUser1",
-                Assets = lstAssets.Take(3).ToList<Asset>()
+                Assets = lstAssets.Take(3).ToList<AssetVm>()
             };
             _userManager.Setup(x => x.UpdateUser(newsUser));
 
@@ -184,7 +154,7 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
                 Email = "1@1.com",
                 FirstName = "U",
                 LastName = "LUser1",
-                Assets = lstAssets.Take(3).ToList<Asset>()
+                Assets = lstAssets.Take(3).ToList<AssetVm>()
             };
             _userManager.Setup(x => x.UpdateUser(newsUser)).Throws(new Exception("First Name should contains at least 3 Characters"));
 
@@ -223,6 +193,23 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
             var statusCodeResult = (IStatusCodeActionResult)result;
             Assert.AreEqual(500, statusCodeResult.StatusCode);
         }
+
+        #region Private Methods
+
+        /// <summary>
+        /// Create AssetVm objects
+        /// </summary>
+        /// <returns>AssetVm</returns>
+        private AssetVm CreateAssetVm(string assetId, string name, string symbol)
+        {
+            return new AssetVm()
+            {
+                AssetId = assetId,
+                Name = name,
+                Symbol = symbol
+            };
+        }
+        #endregion
 
     }
 }

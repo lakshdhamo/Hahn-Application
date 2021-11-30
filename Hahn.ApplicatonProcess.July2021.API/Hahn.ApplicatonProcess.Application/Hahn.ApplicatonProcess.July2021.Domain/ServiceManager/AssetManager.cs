@@ -47,7 +47,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         {
             string error = string.Empty;
             List<AssetDetailVm> lstAssets = GetAssetDetailsFromApiAsync().Result;
-            foreach (Asset ast in userVm.Assets)
+            foreach (AssetVm ast in userVm.Assets)
             {
                 if (!lstAssets.Any(x => x.Id == ast.AssetId && x.Name == ast.Name && x.Symbol == ast.Symbol))
                 {
@@ -58,6 +58,10 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
             return error;
         }
 
+        /// <summary>
+        /// Get assets from "https://api.coincap.io/v2/assets"
+        /// </summary>
+        /// <returns></returns>
         private async Task<List<AssetDetailVm>> GetAssetDetailsFromApiAsync()
         {
             List<AssetDetailVm> assetDeatils = new List<AssetDetailVm>();

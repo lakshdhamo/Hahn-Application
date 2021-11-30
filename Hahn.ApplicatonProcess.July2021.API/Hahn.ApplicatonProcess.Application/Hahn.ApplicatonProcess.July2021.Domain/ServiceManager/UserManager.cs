@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 using Hahn.ApplicatonProcess.July2021.Domain.Entities;
+using Hahn.ApplicatonProcess.July2021.Domain.ExtensionMethods;
 using Hahn.ApplicatonProcess.July2021.Domain.Interfaces;
 using Hahn.ApplicatonProcess.July2021.Domain.Interfaces.ServiceInterface;
 using Hahn.ApplicatonProcess.July2021.Domain.Validators;
@@ -62,7 +63,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
                 ModifiedById = 0,
                 ModifiedDate = DateTime.UtcNow,
                 IsActive = true,
-                Assets = userVm.Assets
+                Assets = userVm.ExtractAssets()
             };
 
             _unitOfWork.Users.Add(user);
@@ -86,7 +87,8 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
                                     Age = p.Age,
                                     Email = p.Email,
                                     Address = p.Address,
-                                    Assets = p.Assets
+                                    Assets = p.ExtractAssetVms()
+
                                 }).ToList();
             return lst;
         }
@@ -99,7 +101,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         public UserVm GetUser(int id)
         {
             User user = _unitOfWork.Users.GetUserById(id);
-            if(user == null)
+            if (user == null)
             {
                 throw new Exception("User not found");
             }
@@ -111,7 +113,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
                 Age = user.Age,
                 Email = user.Email,
                 Address = user.Address,
-                Assets = user.Assets
+                Assets = user.ExtractAssetVms()
             };
         }
 
@@ -138,7 +140,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
             user.Email = userVm.Email;
             user.ModifiedById = userVm.Id;
             user.ModifiedDate = DateTime.UtcNow;
-            user.Assets = userVm.Assets;
+            user.Assets = userVm.ExtractAssets();
 
             _unitOfWork.Complete();
             return user.Id;

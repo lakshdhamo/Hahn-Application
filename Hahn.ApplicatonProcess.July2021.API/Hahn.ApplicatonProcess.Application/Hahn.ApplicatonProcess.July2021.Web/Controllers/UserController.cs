@@ -41,19 +41,23 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
         [SwaggerResponse(200, "Successfully found the User", typeof(UserVm))]
         [SwaggerResponse(500, "Model validatation fails or unhandled error occured.", typeof(UserVm))]
         [SwaggerResponse(400, "Model data type mismatch might happen.", typeof(UserVm))]
-        public UserVm Get(int id)
+        public IActionResult Get(int id)
         {
             try
             {
+                if (id <= 0)
+                    return StatusCode(StatusCodes.Status400BadRequest, "Invalid user id");
+
                 _logger.LogInformation("User/Post method fired on {date}", DateTime.Now);
-                return _userManager.GetUser(id);
+                return Ok(_userManager.GetUser(id));
             }
             catch (Exception e)
             {
                 _logger.LogError($"Error in User/Get method : {e.Message}");
-                throw new Exception(e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                   "Error in User/Get method - " + e.Message);
             }
-            
+
         }
 
         // POST api/<UserController>
@@ -93,6 +97,9 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
         {
             try
             {
+                if (user == null || !ModelState.IsValid)
+                    return StatusCode(StatusCodes.Status400BadRequest, "Invalid user");
+
                 _logger.LogInformation("User/Put method fired on {date}", DateTime.Now);
                 int result = _userManager.UpdateUser(user);
                 return Ok(result);
@@ -112,6 +119,9 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
         {
             try
             {
+                if (id <= 0)
+                    throw new Exception("Invalid User id.");
+
                 _logger.LogInformation("User/Delete method fired on {date}", DateTime.Now);
                 _userManager.DeleteUser(id);
                 return Ok(StatusCode(200));

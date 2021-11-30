@@ -1,5 +1,6 @@
 import { inject } from "aurelia-framework";
 import { I18N } from "aurelia-i18n";
+import { Settings } from "http2";
 
 @inject(
   I18N
@@ -8,22 +9,27 @@ export class LocalizationService {
   private i18n: I18N;
   public age: string;
   public firstNameMinLen: string;
+  public firstNameMaxLen: string;
   public firstNameReq: string;
   public firstName: string;
   public lastNameMinLen: string;
+  public lastNameMaxLen: string;
   public lastNameReq: string;
   public lastName: string;
   public ageReq: string;
   public Age: string;
   public addressMinLen: string;
+  public addressMaxLen: string;
   public addressReq: string;
   public address: string;
   public emailInValid: string;
   public emailReq: string;
   public email: string;
+  public emailMaxLen: string;
 
   public addSuccessMsg: string;
   public updateSuccessMsg: string;
+  public deleteSuccessMsg: string;
   public btnCreate: string;
   public btnReset: string;
   public btnUpdate: string;
@@ -55,15 +61,18 @@ export class LocalizationService {
   public assetDetailFetchError: string;
   public error: string;
   public viewErrorMsg: string;
+  public welcomeMsg: string;
 
   constructor(i18n) {
     this.i18n = i18n;
 
     this.firstNameMinLen = this.i18n.tr('firstNameMinLen');
+    this.firstNameMaxLen = this.i18n.tr('firstNameMaxLen');    
     this.firstNameReq = this.i18n.tr('firstNameReq');
     this.firstName = this.i18n.tr('firstName');
     this.enterFirstName = this.i18n.tr('enterFirstName');
     this.lastNameMinLen = this.i18n.tr('lastNameMinLen');
+    this.lastNameMaxLen = this.i18n.tr('lastNameMaxLen');    
     this.lastNameReq = this.i18n.tr('lastNameReq');
     this.lastName = this.i18n.tr('lastName');
     this.enterLastName = this.i18n.tr('enterLastName');
@@ -71,6 +80,7 @@ export class LocalizationService {
     this.age = this.i18n.tr('age');
     this.enterAge = this.i18n.tr('enterAge');
     this.addressMinLen = this.i18n.tr('addressMinLen');
+    this.addressMaxLen = this.i18n.tr('addressMaxLen');    
     this.addressReq = this.i18n.tr('addressReq');
     this.address = this.i18n.tr('address');
     this.enterAddress = this.i18n.tr('enterAddress');
@@ -78,14 +88,16 @@ export class LocalizationService {
     this.emailReq = this.i18n.tr('emailReq');
     this.email = this.i18n.tr('email');
     this.enterEmail = this.i18n.tr('enterEmail');
-
+    this.emailMaxLen = this.i18n.tr('emailMaxLen');
+    
     this.addSuccessMsg = this.i18n.tr('addSuccessMsg');
     this.updateSuccessMsg = this.i18n.tr('updateSuccessMsg');
+    this.deleteSuccessMsg = this.i18n.tr('deleteSuccessMsg');    
     this.btnCreate = this.i18n.tr('btnCreate');
     this.btnReset = this.i18n.tr('btnReset');
     this.btnUpdate = this.i18n.tr('btnUpdate');
     this.btnCancel = this.i18n.tr('btnCancel');
-    this.titleCreatePage = this.i18n.tr('createPageTitle');
+    this.titleCreatePage = this.i18n.tr('titleCreatePage');
     this.titleUpdatePage = this.i18n.tr('titleUpdatePage');
     this.titleViewPage = this.i18n.tr('titleViewPage');
     this.appTitle = this.i18n.tr('appTitle');
@@ -108,7 +120,7 @@ export class LocalizationService {
     this.assetDetailFetchError = this.i18n.tr('assetDetailFetchError');
     this.error = this.i18n.tr('error');
     this.viewErrorMsg = this.i18n.tr('viewErrorMsg');
-    
+    this.welcomeMsg = this.i18n.tr('welcomeMsg');
     
 
   }

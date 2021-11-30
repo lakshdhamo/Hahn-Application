@@ -24,16 +24,16 @@ namespace Hahn.ApplicatonProcess.July2021.Web.swaggerExample
                 Email = "1@gmail.com",
                 FirstName = "Lakshmanan",
                 LastName = "Dhamotharan",
-                Assets = new List<Domain.Entities.Asset>()
+                Assets = new List<AssetVm>()
                 {
-                    new Asset()
+                    new AssetVm()
                     {
                         AssetId = "bitcoin",
                         Name = "Bitcoin",
                         Symbol = "BTC"
                     },
 
-                    new Asset()
+                    new AssetVm()
                     {
                         AssetId = "ethereum",
                         Name = "Ethereum",

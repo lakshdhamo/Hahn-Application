@@ -9,6 +9,11 @@
         <strong>${error}</strong> ${errorMsg}
       </div>
 
+      <!-- Add/Update success message -->
+      <div if.bind="showSuccessMsg" class="alert alert-success mt-4" role="alert">
+        <strong>${addSuccessMsg}</strong>
+      </div>
+
       <!-- Edit, Delete buttons -->
       <button type="button" class="btn btn-success float-right" style="cursor: pointer" click.delegate="EditProfile()"
         t="btnEditProfile"></button>
@@ -69,9 +74,9 @@
 
       </div>
 
-      <div class="col">
+      <div class="col" >
         <!-- Asset details -->
-        <form class="form-horizontal">
+        <form class="form-horizontal" if.bind="user.assets.length > 0">
           <h3 class="text-center" t="assetLiveData"></h3>
           <hr />
           <div class="form-group">

@@ -6,6 +6,7 @@ import "font-awesome/css/font-awesome.css";
 import './app.css';
 import { I18N, TCustomAttribute } from "aurelia-i18n";
 import Backend from "i18next-xhr-backend";
+import { appValue } from "../src/resources/config/appValue";
 
 export function configure(aurelia: Aurelia): void {
   aurelia.use
@@ -30,7 +31,7 @@ export function configure(aurelia: Aurelia): void {
           loadPath: "./locales/{{lng}}/{{ns}}.json", // <-- XHR settings for where to get the files from
         },
         attributes: aliases,
-        lng: "de",
+        lng: appValue.locale,
         fallbackLng: "en",
         debug: false,
       });

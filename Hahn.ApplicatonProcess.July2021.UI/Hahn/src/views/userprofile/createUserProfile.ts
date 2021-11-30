@@ -4,14 +4,12 @@ import {
   inject,
   CompositionTransaction,
   CompositionTransactionNotifier,
-  bindable,
   observable
 } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { UserService } from "../../resources/services/userService";
 import { User } from "../../resources/models/user";
-import { Asset } from "../../resources/models/asset"
 import { DialogService } from "aurelia-dialog";
 import { Dialog } from "../../resources/dialog/dialog";
 import { I18N } from "aurelia-i18n";
@@ -38,7 +36,7 @@ export class CreateUserProfile {
   private i18N: I18N;
   private dialogService: DialogService;
   private ea: EventAggregator;
-  localizationService: LocalizationService;
+  private localizationService: LocalizationService;
   controller = null;
   private title: string;
   validation: any;
@@ -50,8 +48,7 @@ export class CreateUserProfile {
   private isCreatePage = true;
   private submitBtnCaption: string;
   private resetBtnCaption: string;
-  private addSuccessMsg: string;
-  private showSuccessMsg = false;
+  
   private enterFirstName: string;
   private enterLastName: string;
   private enterAge: string;
@@ -79,13 +76,13 @@ export class CreateUserProfile {
     this.ea = ea;
     this.user = new User;
     this.localizationService = localizationService;
-    this.addSuccessMsg = this.localizationService.addSuccessMsg;
     this.enterFirstName = this.localizationService.enterFirstName;
     this.enterLastName = this.localizationService.enterLastName;
     this.enterAge = this.localizationService.enterAge;
     this.enterAddress = this.localizationService.enterAddress;
     this.enterEmail = this.localizationService.enterEmail;
     this.enterAsset = this.localizationService.enterAsset;
+    this.queryChanged('', '');
   }
 
   // Associates the Asset. 
@@ -151,7 +148,7 @@ export class CreateUserProfile {
     this.selectedAssets = [];
   }
 
-  // Contains prerequisite operation before page load
+  // Contains init operation before page load
   activate = async (params) => {
     try {
       if (params.id) {
@@ -213,14 +210,8 @@ export class CreateUserProfile {
               this.localizationService.createUserFailed
             );
           } else if (response > 0) {
-            this.addSuccessMsg = this.localizationService.addSuccessMsg;
-            this.showSuccessMsg = true;
             this.clearData();
-            setTimeout(() => {
-              this.showSuccessMsg = false;
-              this.router.navigateToRoute("viewProfile", { id: response });
-            }, 1000);
-
+            this.router.navigateToRoute("viewProfile", { id: response, action: "Create" });
           } else {
             alert(this.localizationService.createUserFailed);
           }
@@ -249,14 +240,8 @@ export class CreateUserProfile {
               this.localizationService.updateUserFailed
             );
           } else if (response > 0) {
-            this.addSuccessMsg = this.localizationService.updateSuccessMsg;
-            this.showSuccessMsg = true;
             this.clearData();
-            setTimeout(() => {
-              this.showSuccessMsg = false;
-              this.router.navigateToRoute("viewProfile", { id: response });
-            }, 1000);
-
+            this.router.navigateToRoute("viewProfile", { id: response, action: "Update" });
           } else {
             alert(this.localizationService.updateUserFailed);
           }
@@ -294,17 +279,17 @@ export class CreateUserProfile {
     //Custom validation for checking between two numbers
     ValidationRules.customRule(
       "integerRange",
-      (value, obj, min) => {
+      (value, obj, min, max) => {
         var num = Number.parseInt(value);
         return (
           num === null ||
           num === undefined ||
-          (Number.isInteger(num) && num > min)
+          (Number.isInteger(num) && num > min && num < max)
         );
       },
       // "${$displayName} must be an integer between ${$config.min} and ${$config.max}.",
       this.localizationService.ageGreaterThan,
-      (min) => ({ min })
+      (min, max) => ({ min, max })
     );
 
     //validation rules starts from here
@@ -314,6 +299,8 @@ export class CreateUserProfile {
       .withMessage(this.localizationService.firstNameReq)
       .minLength(3)
       .withMessage(this.localizationService.firstNameMinLen)
+      .maxLength(250)
+      .withMessage(this.localizationService.firstNameMaxLen)
 
       .ensure("lastName")
       .displayName(this.localizationService.lastName)
@@ -321,12 +308,14 @@ export class CreateUserProfile {
       .withMessage(this.localizationService.lastNameReq)
       .minLength(3)
       .withMessage(this.localizationService.lastNameMinLen)
+      .maxLength(250)
+      .withMessage(this.localizationService.lastNameMaxLen)
 
       .ensure("age")
       .displayName(this.localizationService.age)
       .required()
       .withMessage(this.localizationService.ageReq)
-      .satisfiesRule("integerRange", 18)
+      .satisfiesRule("integerRange", 18, 150)
 
       .ensure("address")
       .displayName(this.localizationService.address)
@@ -334,6 +323,8 @@ export class CreateUserProfile {
       .withMessage(this.localizationService.addressReq)
       .minLength(10)
       .withMessage(this.localizationService.addressMinLen)
+      .maxLength(250)
+      .withMessage(this.localizationService.addressMaxLen)
 
       .ensure("email")
       .displayName(this.localizationService.email)
@@ -341,6 +332,8 @@ export class CreateUserProfile {
       .withMessage(this.localizationService.emailReq)
       .email()
       .withMessage(this.localizationService.emailInValid)
+      .maxLength(250)
+      .withMessage(this.localizationService.emailMaxLen)
 
       .on(this.user);
   }

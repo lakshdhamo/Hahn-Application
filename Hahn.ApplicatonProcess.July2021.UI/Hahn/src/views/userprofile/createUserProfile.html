@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-sm-6 offset-sm-3">
         <div class="card mt-4 mb-4 shadow-sm">
-          <h4 class="mt-2">${title}</h2>
+          <h4 class="text-center pt-4">${title}</h2>
             <div class="card-body">
               <form submit.trigger="execute()">
                 <div class="form-group" validation-errors.bind="firstNameErrors"
@@ -82,7 +82,7 @@
                   </div>
 
                   <div class="form-footer">
-                    <button type="submit" class="btn btn-success" disabled.bind="!canSave" style="cursor: pointer">
+                    <button type="submit" class="btn btn-success mr-2" disabled.bind="!canSave" style="cursor: pointer">
                       ${submitBtnCaption}
                     </button>
 
@@ -90,10 +90,6 @@
                       style="cursor: pointer">
                       ${resetBtnCaption}
                     </button>
-
-                    <div if.bind="showSuccessMsg" class="alert alert-success mt-4" role="alert">
-                      <strong>${addSuccessMsg}</strong>
-                    </div>
 
                   </div>
               </form>
