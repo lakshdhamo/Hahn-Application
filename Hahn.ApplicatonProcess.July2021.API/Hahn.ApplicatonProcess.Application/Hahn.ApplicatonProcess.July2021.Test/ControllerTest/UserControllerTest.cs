@@ -132,10 +132,10 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
                 LastName = "LUser1",
                 Assets = lstAssets.Take(3).ToList<AssetVm>()
             };
-            _userManager.Setup(x => x.UpdateUser(newsUser));
+            _userManager.Setup(x => x.UpdateUser(1, newsUser));
 
             // Act
-            IActionResult result = _userController.Put(newsUser);
+            IActionResult result = _userController.Put(1, newsUser);
 
             // Assert
             var statusCodeResult = (IStatusCodeActionResult)result;
@@ -156,10 +156,10 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
                 LastName = "LUser1",
                 Assets = lstAssets.Take(3).ToList<AssetVm>()
             };
-            _userManager.Setup(x => x.UpdateUser(newsUser)).Throws(new Exception("First Name should contains at least 3 Characters"));
+            _userManager.Setup(x => x.UpdateUser(1, newsUser)).Throws(new Exception("First Name should contains at least 3 Characters"));
 
             // Act
-            IActionResult result = _userController.Put(newsUser);
+            IActionResult result = _userController.Put(1, newsUser);
 
             // Assert
             var statusCodeResult = (IStatusCodeActionResult)result;
