@@ -35,7 +35,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.Interfaces.ServiceInterface
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        int UpdateUser(UserVm user);
+        int UpdateUser(int id, UserVm user);
 
         /// <summary>
         /// Removes user.

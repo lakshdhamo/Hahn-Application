@@ -17,17 +17,17 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
 {
     public class UserControllerTest
     {
-        private readonly Mock<ILogger<UserController>> _mockLogger;
+        private readonly Mock<ILogger<UsersController>> _mockLogger;
         private readonly Mock<IUserManager> _userManager;
-        private readonly UserController _userController;
+        private readonly UsersController _userController;
         private UserVm singleUser;
         private List<AssetVm> lstAssets = new List<AssetVm>();
 
         public UserControllerTest()
         {
-            _mockLogger = new Mock<ILogger<UserController>>();
+            _mockLogger = new Mock<ILogger<UsersController>>();
             _userManager = new Mock<IUserManager>();
-            _userController = new UserController(_userManager.Object, _mockLogger.Object);
+            _userController = new UsersController(_userManager.Object, _mockLogger.Object);
         }
 
         [SetUp]

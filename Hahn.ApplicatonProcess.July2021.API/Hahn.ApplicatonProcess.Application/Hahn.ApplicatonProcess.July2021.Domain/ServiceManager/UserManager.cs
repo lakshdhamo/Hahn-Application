@@ -122,7 +122,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         /// </summary>
         /// <param name="userVm"></param>
         /// <returns>Returns the updated User profile id</returns>
-        public int UpdateUser(UserVm userVm)
+        public int UpdateUser(int id, UserVm userVm)
         {
             ValidationModel validateResult = ValidateUser(userVm);
 
@@ -132,7 +132,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
                 throw new Exception(errorMessage);
             }
 
-            User user = _unitOfWork.Users.GetUserById(userVm.Id);
+            User user = _unitOfWork.Users.GetUserById(id);
             user.FirstName = userVm.FirstName;
             user.LastName = userVm.LastName;
             user.Address = userVm.Address;

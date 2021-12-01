@@ -1,21 +1,21 @@
 # Hahn-Application
 
 Prerequisite:
-1. Download the source code and unzip in root folder (eg: d:). due to long path, it might give error.
+1. Download the source code and unzip it in root folder (eg: d:). due to long path, it might give error.
 
 Steps to setup Backend:
 1. Install Visual Studio 2019
 2. Install .NET 5
 
 Steps to setup Frontend:
-1. Install latest Node.js
-2. Install latest typescript
+1. Install latest Node.js: https://nodejs.org/en/
+2. Install latest typescript : npm install -g typescript
+3. Navigate to project folder
 3. Install aurelia-cli globally: npm install aurelia-cli -g
 4. Restore the dependent packages: npm install
-5. Command to Build: au build --env dev (navigate to project folder and run this command)
-6. Command to Run: au run --env run --watch (navigate to project folder and run this command)
-7. Config file => Have config in location ./resources/config. This has API path and locale value
-8. 
+5. Command to Build: au build --env dev 
+6. Command to Run: au run --env run --watch 
+7. Ensure the API's post number in Aurelia project. We can find the custom config file at location ./resources/config. This config file contains API path and locale value.
 
 Concepts used in API:
 1. Used In Memory database

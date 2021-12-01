@@ -18,11 +18,11 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IUserManager _userManager;
         private readonly ILogger _logger;
-        public UserController(IUserManager userManager, ILogger<UserController> logger)
+        public UsersController(IUserManager userManager, ILogger<UsersController> logger)
         {
             _userManager = userManager;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -85,15 +85,15 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
                    "Error saving data - " + e.Message);
             }
         }
-
+        
         // PUT api/<UserController>/5
-        [HttpPut]
+        [HttpPut("{id}")]
         [SwaggerOperation("Updates the User profile.")]
         [SwaggerResponse(200, "Successfully updated User profile", typeof(UserVm))]
         [SwaggerResponse(500, "Model validatation fails or unhandled error occured.", typeof(UserVm))]
         [SwaggerResponse(400, "Model data type mismatch might happen.", typeof(UserVm))]
         [SwaggerRequestExample(typeof(UserVm), typeof(UserVmUpdateExample))]
-        public IActionResult Put([FromBody] UserVm user)
+        public IActionResult Put(int id, [FromBody] UserVm user)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
                     return StatusCode(StatusCodes.Status400BadRequest, "Invalid user");
 
                 _logger.LogInformation("User/Put method fired on {date}", DateTime.Now);
-                int result = _userManager.UpdateUser(user);
+                int result = _userManager.UpdateUser(id, user);
                 return Ok(result);
             }
             catch (Exception e)

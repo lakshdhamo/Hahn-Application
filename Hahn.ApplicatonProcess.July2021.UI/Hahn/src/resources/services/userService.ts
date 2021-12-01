@@ -36,7 +36,7 @@ export class UserService {
 
   CreateUser(user) {
     return this.http
-      .fetch("user", {
+      .fetch("users", {
         method: "post",
         body: json(user),
       })
@@ -51,7 +51,7 @@ export class UserService {
 
   getUserById(id) {
     return this.http
-      .fetch(`user/${id}`)
+      .fetch(`users/${id}`)
       .then((response) => response.json())
       .then((user) => {
         return user;
@@ -64,7 +64,7 @@ export class UserService {
 
   updateUser(user) {
     return this.http
-      .fetch("user", {
+      .fetch(`users/${user.id}`, {
         method: "put",
         body: json(user),
       })
@@ -79,7 +79,7 @@ export class UserService {
 
   deleteUserProfile(id) {
     return this.http
-      .fetch(`user/${id}`, {
+      .fetch(`users/${id}`, {
         method: "delete",
       })
       .then((response) => response.json())
@@ -93,7 +93,7 @@ export class UserService {
 
   findAsset(newval) {
     return this.http
-      .fetch('assetdetail')
+      .fetch('assets')
       .then((response) => response.json())
       .then((asset) => {
         return asset.filter(ast => ast.name.includes(newval));
@@ -106,7 +106,7 @@ export class UserService {
 
   getAssetDetails(assetId) {
     return this.http
-      .fetch(`assetdetail/${assetId}`)
+      .fetch(`assets/${assetId}`)
       .then((response) => response.json())
       .then((assetDetail) => {
         return assetDetail;

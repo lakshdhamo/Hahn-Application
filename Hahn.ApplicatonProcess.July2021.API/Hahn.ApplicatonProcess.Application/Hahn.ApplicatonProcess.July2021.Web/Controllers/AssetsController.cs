@@ -14,12 +14,12 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AssetDetailController : ControllerBase
+    public class AssetsController : ControllerBase
     {
         private readonly IAssetManager _assetManager;
         private readonly ILogger _logger;
 
-        public AssetDetailController(IAssetManager assetManager, ILogger<UserController> logger)
+        public AssetsController(IAssetManager assetManager, ILogger<UsersController> logger)
         {
             _assetManager = assetManager;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
