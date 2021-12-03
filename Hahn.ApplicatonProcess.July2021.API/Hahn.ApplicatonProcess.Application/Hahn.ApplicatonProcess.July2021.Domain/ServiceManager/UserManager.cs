@@ -49,7 +49,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
                 throw new Exception(errorMessage);
             }
 
-            User user = new User()
+            User user = new()
             {
                 FirstName = userVm.FirstName,
                 LastName = userVm.LastName,
@@ -162,11 +162,11 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         /// <returns>Returns ValidationModel to describe about validation error details</returns>
         private ValidationModel ValidateUser(UserVm userVm)
         {
-            UserValidator validator = new UserValidator();
+            UserValidator validator = new();
             ValidationResult validationResult = validator.Validate(userVm);
-            List<string> ValidationMessages = new List<string>();
+            List<string> ValidationMessages = new();
 
-            ValidationModel response = new ValidationModel();
+            ValidationModel response = new();
             if (!validationResult.IsValid)
             {
                 response.IsValid = false;

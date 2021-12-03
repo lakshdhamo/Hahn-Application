@@ -18,7 +18,7 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
         private readonly Mock<IUserManager> _userManager;
         private readonly UsersController _userController;
         private UserVm singleUser;
-        private List<AssetVm> lstAssets = new List<AssetVm>();
+        private readonly List<AssetVm> lstAssets = new();
 
         public UserControllerTest()
         {
@@ -71,7 +71,7 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
         public void CreateUser_ReturnsStatus201Created_When_NewObjectPassed()
         {
             // Arrange
-            UserVm newsUser = new UserVm()
+            UserVm newsUser = new()
             {
                 Id = 0,
                 Address = "15/3, North Street",
@@ -95,7 +95,7 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
         public void CreateUser_ReturnsStatus500Created_When_ValidationFailed()
         {
             // Arrange
-            UserVm newsUser = new UserVm()
+            UserVm newsUser = new()
             {
                 Id = 0,
                 Address = "15/3, North Street",
@@ -119,7 +119,7 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
         public void UpdateUser_ReturnsStatus200_When_CorrectObjectPassed()
         {
             // Arrange
-            UserVm newsUser = new UserVm()
+            UserVm newsUser = new()
             {
                 Id = 1,
                 Address = "15/3, North Street",
@@ -143,7 +143,7 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
         public void UpdateUser_ReturnsStatus500_When_ValidationFailed()
         {
             // Arrange
-            UserVm newsUser = new UserVm()
+            UserVm newsUser = new()
             {
                 Id = 1,
                 Address = "15/3, North Street",

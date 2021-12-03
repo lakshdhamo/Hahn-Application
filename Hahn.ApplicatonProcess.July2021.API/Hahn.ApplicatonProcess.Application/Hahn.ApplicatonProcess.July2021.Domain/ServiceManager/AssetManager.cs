@@ -62,7 +62,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         /// <returns></returns>
         private async Task<List<AssetDetailVm>> GetAssetDetailsFromApiAsync()
         {
-            List<AssetDetailVm> assetDeatils = new List<AssetDetailVm>();
+            List<AssetDetailVm> assetDeatils = new();
             using (var client = new HttpClient())
             {
 
