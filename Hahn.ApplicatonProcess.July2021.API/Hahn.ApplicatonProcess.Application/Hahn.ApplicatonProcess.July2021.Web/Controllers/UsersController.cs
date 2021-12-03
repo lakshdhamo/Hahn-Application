@@ -1,16 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Hahn.ApplicatonProcess.July2021.Domain.Interfaces.ServiceInterface;
-using Hahn.ApplicatonProcess.July2021.Domain.Entities;
-using Microsoft.AspNetCore.Http;
+﻿using Hahn.ApplicatonProcess.July2021.Domain.Interfaces.ServiceInterface;
 using Hahn.ApplicatonProcess.July2021.Domain.VMs;
+using Hahn.ApplicatonProcess.July2021.Web.swaggerExample;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
-using Hahn.ApplicatonProcess.July2021.Web.swaggerExample;
 using Swashbuckle.AspNetCore.Filters;
+using System;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -46,7 +43,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
             try
             {
                 if (id <= 0)
-                    return StatusCode(StatusCodes.Status400BadRequest, "Invalid user id");
+                    return BadRequest("Invalid user id");
 
                 _logger.LogInformation("User/Post method fired on {date}", DateTime.Now);
                 return Ok(_userManager.GetUser(id));
@@ -73,7 +70,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
             {
                 _logger.LogInformation("User/Post method fired on {date}", DateTime.Now);
                 if (user == null || !ModelState.IsValid)
-                    return StatusCode(StatusCodes.Status400BadRequest, "Invalid user");
+                    return BadRequest("Invalid user");
 
                 int result = _userManager.CreateUser(user);
                 return Created("/api/User/{id}", result);
@@ -85,7 +82,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
                    "Error saving data - " + e.Message);
             }
         }
-        
+
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
         [SwaggerOperation("Updates the User profile.")]
@@ -98,7 +95,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
             try
             {
                 if (user == null || !ModelState.IsValid)
-                    return StatusCode(StatusCodes.Status400BadRequest, "Invalid user");
+                    return BadRequest("Invalid user");
 
                 _logger.LogInformation("User/Put method fired on {date}", DateTime.Now);
                 int result = _userManager.UpdateUser(id, user);
@@ -120,7 +117,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
             try
             {
                 if (id <= 0)
-                    throw new Exception("Invalid User id.");
+                    return BadRequest("Invalid user id");
 
                 _logger.LogInformation("User/Delete method fired on {date}", DateTime.Now);
                 _userManager.DeleteUser(id);
