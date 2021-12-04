@@ -21,7 +21,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         /// <returns>Collection of assets</returns>
         public async Task<List<AssetDetailVm>> GetAssetDetailsAsync()
         {
-            return await GetAssetDetailsFromApiAsync();
+            return await GetAssetDetailsFromApiAsync().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         /// <returns>Returns AssetDetailVm detail</returns>
         public async Task<AssetDetailVm> GetAssetDetailByIdAsync(string id)
         {
-            List<AssetDetailVm> assetDeatils = await GetAssetDetailsFromApiAsync();
+            List<AssetDetailVm> assetDeatils = await GetAssetDetailsFromApiAsync().ConfigureAwait(false);
             AssetDetailVm assetDetail = assetDeatils.FirstOrDefault(x => x.Id == id);
             return assetDetail;
         }

@@ -29,7 +29,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
         [SwaggerOperation("Gets all the assets from https://api.coincap.io/v2/assets ")]
         public async Task<List<AssetDetailVm>> GetAsync()
         {
-            return await _assetManager.GetAssetDetailsAsync();
+            return await _assetManager.GetAssetDetailsAsync().ConfigureAwait(false);
         }
 
         // GET api/<UserController>/5
@@ -37,7 +37,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
         [SwaggerOperation("Gets the specified asset from https://api.coincap.io/v2/assets ")]
         public async Task<AssetDetailVm> GetAsync(string id)
         {
-            return await _assetManager.GetAssetDetailByIdAsync(id);
+            return await _assetManager.GetAssetDetailByIdAsync(id).ConfigureAwait(false);
         }
 
     }

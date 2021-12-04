@@ -48,13 +48,14 @@ export class CreateUserProfile {
   private isCreatePage = true;
   private submitBtnCaption: string;
   private resetBtnCaption: string;
-  
+
   private enterFirstName: string;
   private enterLastName: string;
   private enterAge: string;
   private enterAddress: string;
   private enterEmail: string;
   private enterAsset: string;
+  private showLoader = false;
 
   constructor(
     userService: UserService,
@@ -201,7 +202,7 @@ export class CreateUserProfile {
       this.selectedAssets.forEach((element) => {
         this.user.assets.push({ assetId: element.id, name: element.name, symbol: element.symbol });
       })
-
+      this.showLoader = true;
       await this.userService
         .CreateUser(this.user)
         .then((response) => {
@@ -215,10 +216,12 @@ export class CreateUserProfile {
           } else {
             alert(this.localizationService.createUserFailed);
           }
+          this.showLoader = false;
         });
 
     } catch (error) {
       console.log(error);
+      this.showLoader = false;
     }
   };
 
@@ -232,6 +235,7 @@ export class CreateUserProfile {
         this.user.assets.push({ assetId: element.assetId, name: element.name, symbol: element.symbol });
       })
 
+      this.showLoader = true;
       await this.userService
         .updateUser(this.user)
         .then((response) => {
@@ -245,9 +249,11 @@ export class CreateUserProfile {
           } else {
             alert(this.localizationService.updateUserFailed);
           }
+          this.showLoader = false;
         });
 
     } catch (error) {
+      this.showLoader = false;
       console.log(error);
     }
   };
