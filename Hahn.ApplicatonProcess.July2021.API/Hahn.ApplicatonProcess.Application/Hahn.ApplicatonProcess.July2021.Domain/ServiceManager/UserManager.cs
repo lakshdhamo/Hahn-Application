@@ -96,7 +96,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Returns specific User profile detail</returns>
-        public UserVm GetUser(int id)
+        public UserVm GetUser(in int id)
         {
             User user = _unitOfWork.Users.GetUserById(id);
             if (user == null)
@@ -118,9 +118,10 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         /// <summary>
         /// Update the user data
         /// </summary>
-        /// <param name="userVm"></param>
+        /// <param name="id">Unique id</param>
+        /// <param name="userVm">Entity to be modified</param>
         /// <returns>Returns the updated User profile id</returns>
-        public int UpdateUser(int id, UserVm userVm)
+        public int UpdateUser(in int id, UserVm userVm)
         {
             ValidationModel validateResult = ValidateUser(userVm);
 
@@ -148,7 +149,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         /// Removes user.
         /// </summary>
         /// <param name="id"></param>
-        public void DeleteUser(int id)
+        public void DeleteUser(in int id)
         {
             User user = _unitOfWork.Users.GetUserById(id);
             user.IsActive = false;

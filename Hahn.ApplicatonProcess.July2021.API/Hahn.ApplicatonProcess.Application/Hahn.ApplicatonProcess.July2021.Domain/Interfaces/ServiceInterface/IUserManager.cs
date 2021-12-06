@@ -28,19 +28,20 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.Interfaces.ServiceInterface
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        UserVm GetUser(int id);
+        UserVm GetUser(in int id);
 
         /// <summary>
         /// Update the user data
         /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        int UpdateUser(int id, UserVm user);
+        /// <param name="id">Unique id</param>
+        /// <param name="userVm">Entity to be modified</param>
+        /// <returns>Returns the updated User profile id</returns>
+        int UpdateUser(in int id, UserVm user);
 
         /// <summary>
         /// Removes user.
         /// </summary>
         /// <param name="id"></param>
-        void DeleteUser(int id);
+        void DeleteUser(in int id);
     }
 }

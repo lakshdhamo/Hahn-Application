@@ -14,13 +14,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.VMs
 
         [JsonProperty("rank")]
         public string Rank { get; init; }
-
-        //[JsonProperty("symbol")]
-        //public string Symbol { get; init; }
-
-        //[JsonProperty("name")]
-        //public string Name { get; init; }
-
+     
         [JsonProperty("supply")]
         public string Supply { get; init; }
 
