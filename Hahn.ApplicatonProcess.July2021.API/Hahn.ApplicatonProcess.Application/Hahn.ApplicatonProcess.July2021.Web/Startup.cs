@@ -57,15 +57,9 @@ namespace Hahn.ApplicatonProcess.July2021.Web
             services.AddDbContext<ApplicationContext>(options => options.UseInMemoryDatabase(databaseName: "UserProfile"));
             #endregion
 
-            #region Repositories
-            //services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            //services.AddTransient<IUserRepository, UserRepository>();
-            //services.AddTransient<IAssetRepository, AssetRepository>();
-            #endregion
-
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IUserManager, UserManager>();
-            services.AddTransient<IAssetManager, AssetManager>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<IAssetManager, AssetManager>();
 
             //Enabling CORS
             services.AddCors();
