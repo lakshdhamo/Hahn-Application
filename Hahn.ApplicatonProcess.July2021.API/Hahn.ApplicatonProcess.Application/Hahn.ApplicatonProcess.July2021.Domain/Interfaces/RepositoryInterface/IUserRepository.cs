@@ -15,5 +15,11 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.Interfaces
         /// <param name="id"></param>
         /// <returns>Returns user profile</returns>
         User GetUserById(int id);
+
+        /// <summary>
+        /// Gets all the active users
+        /// </summary>
+        /// <returns></returns>
+        List<User> GetAllUsers();
     }
 }

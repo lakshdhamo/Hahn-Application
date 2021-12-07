@@ -24,5 +24,14 @@ namespace Hahn.ApplicatonProcess.July2021.Data.Repositories
         {
             return _context.Users.Include(x => x.Assets).FirstOrDefault(x => x.Id == id && x.IsActive);
         }
+
+        /// <summary>
+        /// Gets all the active users
+        /// </summary>
+        /// <returns></returns>
+        public List<User> GetAllUsers()
+        {
+            return _context.Users.Where(x => x.IsActive).Include(x => x.Assets).ToList<User>();
+        }
     }
 }

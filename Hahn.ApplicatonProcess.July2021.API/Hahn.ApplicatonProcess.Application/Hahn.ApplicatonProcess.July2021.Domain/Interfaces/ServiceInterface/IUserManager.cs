@@ -43,5 +43,16 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.Interfaces.ServiceInterface
         /// </summary>
         /// <param name="id"></param>
         void DeleteUser(in int id);
+
+        /// <summary>
+        /// Check whether already system has same user. 
+        /// Considered Email as the Candidate Key
+        /// </summary>
+        /// <param name="userVM"></param>
+        /// <returns>
+        /// True: If user already exists
+        /// False: User doesn't exists
+        /// </returns>
+        bool IsUserAlreadyExists(UserVm userVM);
     }
 }

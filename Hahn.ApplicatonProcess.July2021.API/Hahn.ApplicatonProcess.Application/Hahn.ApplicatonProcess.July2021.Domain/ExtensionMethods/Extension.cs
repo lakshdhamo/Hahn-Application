@@ -20,13 +20,20 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ExtensionMethods
         /// <returns>List of associated Assets</returns>
         public static List<Asset> ExtractAssets(this UserVm userVm)
         {
-            return userVm.Assets.Select(x =>
-                                        new Asset()
-                                        {
-                                            AssetId = x.AssetId,
-                                            Name = x.Name,
-                                            Symbol = x.Symbol
-                                        }).ToList<Asset>();
+            if (userVm.Assets.Any())
+            {
+                return userVm.Assets.Select(x =>
+                                            new Asset()
+                                            {
+                                                AssetId = x.AssetId,
+                                                Name = x.Name,
+                                                Symbol = x.Symbol
+                                            }).ToList<Asset>();
+            }
+            else
+            {
+                return new List<Asset>();
+            }
         }
 
         /// <summary>
@@ -36,13 +43,21 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ExtensionMethods
         /// <returns>List of associated AssetVms</returns>
         public static List<AssetVm> ExtractAssetVms(this User user)
         {
-            return user.Assets.Select(x =>
+            if (user.Assets.Any())
+            {
+                return user.Assets.Select(x =>
                                         new AssetVm()
                                         {
                                             AssetId = x.AssetId,
                                             Name = x.Name,
                                             Symbol = x.Symbol
                                         }).ToList<AssetVm>();
+            }
+            else
+            {
+                return new List<AssetVm>();
+            }
+
         }
 
     }

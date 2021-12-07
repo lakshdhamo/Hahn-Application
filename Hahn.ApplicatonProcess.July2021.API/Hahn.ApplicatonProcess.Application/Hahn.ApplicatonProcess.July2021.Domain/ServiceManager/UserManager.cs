@@ -76,7 +76,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         public List<UserVm> GetUsers()
         {
             List<UserVm> lst = (from p in
-                _unitOfWork.Users.GetAll().Where(x => x.IsActive)
+                _unitOfWork.Users.GetAllUsers()
                                 select new UserVm
                                 {
                                     Id = p.Id,
@@ -88,6 +88,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
                                     Assets = p.ExtractAssetVms()
 
                                 }).ToList();
+
             return lst;
         }
 
@@ -154,6 +155,20 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
             User user = _unitOfWork.Users.GetUserById(id);
             user.IsActive = false;
             _unitOfWork.Complete();
+        }
+
+        /// <summary>
+        /// Check whether already system has same user. 
+        /// Considered Email as the Candidate Key
+        /// </summary>
+        /// <param name="userVM"></param>
+        /// <returns>
+        /// True: If user already exists
+        /// False: User doesn't exists
+        /// </returns>
+        public bool IsUserAlreadyExists(UserVm userVM)
+        {
+            return GetUsers().Any(x => x.Email == userVM.Email);
         }
 
         /// <summary>

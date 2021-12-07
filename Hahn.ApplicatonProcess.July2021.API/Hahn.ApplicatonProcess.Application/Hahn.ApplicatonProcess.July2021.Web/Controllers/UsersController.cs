@@ -69,7 +69,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
             try
             {
                 _logger.LogInformation("User/Post method fired on {date}", DateTime.Now);
-                if (user == null || !ModelState.IsValid)
+                if (user == null || !ModelState.IsValid || _userManager.IsUserAlreadyExists(user))
                     return BadRequest("Invalid user");
 
                 int result = _userManager.CreateUser(user);
