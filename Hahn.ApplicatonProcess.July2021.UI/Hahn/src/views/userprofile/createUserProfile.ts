@@ -261,6 +261,7 @@ export class CreateUserProfile {
   //enable send button when form validation is done
   get canSave() {
     return (
+      this.user &&
       this.user.firstName &&
       this.user.lastName &&
       this.user.address &&
@@ -272,11 +273,13 @@ export class CreateUserProfile {
   //enable reset button when user type something
   get canReset() {
     return (
-      this.user.firstName ||
-      this.user.lastName ||
-      this.user.address ||
-      this.user.email ||
-      this.user.age
+      this.user &&
+      (
+        this.user.firstName ||
+        this.user.lastName ||
+        this.user.address ||
+        this.user.email ||
+        this.user.age)
     );
   }
 
