@@ -5,6 +5,7 @@ using Hahn.ApplicatonProcess.July2021.Domain.Interfaces;
 using Hahn.ApplicatonProcess.July2021.Domain.Interfaces.ServiceInterface;
 using Hahn.ApplicatonProcess.July2021.Domain.Validators;
 using Hahn.ApplicatonProcess.July2021.Domain.VMs;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +19,14 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAssetManager _assetManager;
-        public UserManager(IUnitOfWork unitOfWork, IAssetManager assetManager)
+        private readonly ICacheManager _cacheManager;
+        private const string getUsersKey = "getUsersKey";
+
+        public UserManager(IUnitOfWork unitOfWork, IAssetManager assetManager, ICacheManager cacheManager)
         {
             _unitOfWork = unitOfWork;
             _assetManager = assetManager;
+            _cacheManager = cacheManager;
         }
 
         /// <summary>
@@ -66,6 +71,8 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
 
             _unitOfWork.Users.Add(user);
             _unitOfWork.Complete();
+            /// Remove the cached value due to Add
+            _cacheManager.Remove(getUsersKey);
             return user.Id;
         }
 
@@ -75,21 +82,40 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         /// <returns>Retunrs the user profile infomation along with associated Aseet details</returns>
         public List<UserVm> GetUsers()
         {
-            List<UserVm> lst = (from p in
+            List<UserVm> lstUsers = null;
+            // If found in cache, return cached data
+
+            lstUsers = _cacheManager.Get<List<UserVm>>(getUsersKey, out lstUsers);
+
+            if (lstUsers != null)
+            { return lstUsers; }
+
+            lstUsers = (from p in
                 _unitOfWork.Users.GetAllUsers()
-                                select new UserVm
-                                {
-                                    Id = p.Id,
-                                    FirstName = p.FirstName,
-                                    LastName = p.LastName,
-                                    Age = p.Age,
-                                    Email = p.Email,
-                                    Address = p.Address,
-                                    Assets = p.ExtractAssetVms()
+                        select new UserVm
+                        {
+                            Id = p.Id,
+                            FirstName = p.FirstName,
+                            LastName = p.LastName,
+                            Age = p.Age,
+                            Email = p.Email,
+                            Address = p.Address,
+                            Assets = p.ExtractAssetVms()
 
-                                }).ToList();
+                        }).ToList();
 
-            return lst;
+            /// Cache the output
+            if (lstUsers.Count > 0)
+            {
+                // Set cache options
+                var cacheOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromHours(24));
+
+                // Set object in cache
+                _cacheManager.Add(getUsersKey, lstUsers, cacheOptions);
+            }
+
+
+            return lstUsers;
         }
 
         /// <summary>
@@ -143,6 +169,8 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
             user.Assets = userVm.ExtractAssets();
 
             _unitOfWork.Complete();
+            /// Remove the cached value due to update
+            _cacheManager.Remove(getUsersKey);
             return user.Id;
         }
 
@@ -155,6 +183,8 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
             User user = _unitOfWork.Users.GetUserById(id);
             user.IsActive = false;
             _unitOfWork.Complete();
+            /// Remove the cached value due to Delete
+            _cacheManager.Remove(getUsersKey);
         }
 
         /// <summary>

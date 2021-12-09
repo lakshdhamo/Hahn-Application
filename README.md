@@ -25,6 +25,7 @@ Concepts used in API:
 5. Seri log to log the information
 6. The Repository and Unit of Work Patterns - The repository and unit of work patterns are intended to create an abstraction layer between the data access layer and the business logic layer of an application. Implementing these patterns can help insulate your application from changes in the data store and can facilitate automated unit testing or test-driven development (TDD).
 7. NUnit to test the APIs end point with different input values
+8. Used InMemory Cache to cache the output values
 
 Concepts used in UI:
 1. Aurelia UI framework

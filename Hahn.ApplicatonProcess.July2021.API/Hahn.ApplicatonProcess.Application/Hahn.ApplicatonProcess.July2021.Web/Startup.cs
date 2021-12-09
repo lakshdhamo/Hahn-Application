@@ -8,6 +8,7 @@ using Hahn.ApplicatonProcess.July2021.Web.swaggerExample;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,7 +34,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddMemoryCache();
             services.AddControllers().AddFluentValidation(s =>
             {
                 s.RegisterValidatorsFromAssemblyContaining<Startup>();
@@ -47,7 +48,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web
                     Title = "Hahn.ApplicatonProcess.July2021.Web",
                     Version = "v1",
                     Description = "The Web API endpoint to manage Hahn's User profile and Asset tracking."
-                    
+
                 });
                 c.ExampleFilters();
             });
@@ -60,6 +61,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IAssetManager, AssetManager>();
+            services.AddSingleton<ICacheManager, InMemoryCacheManager>();
 
             //Enabling CORS
             services.AddCors();
