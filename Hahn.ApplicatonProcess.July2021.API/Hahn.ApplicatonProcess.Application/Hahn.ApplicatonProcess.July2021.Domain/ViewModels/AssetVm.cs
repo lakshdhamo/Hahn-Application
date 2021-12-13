@@ -7,23 +7,23 @@ using System.Threading.Tasks;
 
 namespace Hahn.ApplicatonProcess.July2021.Domain.VMs
 {
-    public class AssetVm
+    public record AssetVm
     {
         /// <summary>
         /// Asset Id
         /// </summary>
-        public string AssetId { get; set; }
+        public string AssetId { get; init; }
 
         /// <summary>
         /// Asset Symbol
         /// </summary>
         [JsonProperty("symbol")]
-        public string Symbol { get; set; }
+        public string Symbol { get; init; }
 
         /// <summary>
         /// Asset Name
         /// </summary>
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name { get; init; }
     }
 }

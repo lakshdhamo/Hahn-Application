@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hahn.ApplicatonProcess.July2021.Domain.VMs
 {
-    public class AssetDetailVm : AssetVm
+    public record AssetDetailVm : AssetVm
     {
         [JsonProperty("id")]
         public string Id { get; init; }
@@ -38,5 +38,6 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.VMs
 
         [JsonProperty("explorer")]
         public string Explorer { get; init; }
+
     }
 }
