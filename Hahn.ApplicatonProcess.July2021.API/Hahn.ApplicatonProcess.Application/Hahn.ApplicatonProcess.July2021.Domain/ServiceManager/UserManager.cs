@@ -34,7 +34,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         /// </summary>
         /// <param name="userVm"></param>
         /// <returns>Returns newly created User profile's id</returns>
-        public int CreateUser(UserVm userVm)
+        public UserVm CreateUser(UserVm userVm)
         {
             ValidationModel validateResult = ValidateUser(userVm);
             string errorMessage;
@@ -73,7 +73,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
             _unitOfWork.Complete();
             /// Remove the cached value due to Add
             _cacheManager.Remove(getUsersKey);
-            return user.Id;
+            return user.ExtractUserVm();
         }
 
         /// <summary>
@@ -130,16 +130,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
             {
                 throw new Exception("User not found");
             }
-            return new UserVm
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Age = user.Age,
-                Email = user.Email,
-                Address = user.Address,
-                Assets = user.ExtractAssetVms()
-            };
+            return user.ExtractUserVm();
         }
 
         /// <summary>
@@ -148,7 +139,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         /// <param name="id">Unique id</param>
         /// <param name="userVm">Entity to be modified</param>
         /// <returns>Returns the updated User profile id</returns>
-        public int UpdateUser(in int id, UserVm userVm)
+        public UserVm UpdateUser(in int id, UserVm userVm)
         {
             ValidationModel validateResult = ValidateUser(userVm);
 
@@ -171,7 +162,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
             _unitOfWork.Complete();
             /// Remove the cached value due to update
             _cacheManager.Remove(getUsersKey);
-            return user.Id;
+            return user.ExtractUserVm();
         }
 
         /// <summary>

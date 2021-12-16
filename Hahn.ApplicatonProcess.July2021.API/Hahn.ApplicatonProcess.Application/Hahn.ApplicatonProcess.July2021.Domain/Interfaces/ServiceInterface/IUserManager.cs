@@ -15,7 +15,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.Interfaces.ServiceInterface
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        int CreateUser(UserVm user);
+        UserVm CreateUser(UserVm user);
 
         /// <summary>
         /// Gets all the users' details
@@ -36,7 +36,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.Interfaces.ServiceInterface
         /// <param name="id">Unique id</param>
         /// <param name="userVm">Entity to be modified</param>
         /// <returns>Returns the updated User profile id</returns>
-        int UpdateUser(in int id, UserVm user);
+        UserVm UpdateUser(in int id, UserVm user);
 
         /// <summary>
         /// Removes user.

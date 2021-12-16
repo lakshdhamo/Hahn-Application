@@ -60,5 +60,21 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ExtensionMethods
 
         }
 
+        /// <summary>
+        /// Extracs UserVm from User
+        /// </summary>
+        /// <param name="user">User entity</param>
+        /// <returns>UserVM</returns>
+        public static UserVm ExtractUserVm(this User user) => new UserVm()
+        {
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Address = user.Address,
+            Age = user.Age,
+            Email = user.Email,
+            Id = user.Id,
+            Assets = user.ExtractAssetVms()
+        };
+
     }
 }

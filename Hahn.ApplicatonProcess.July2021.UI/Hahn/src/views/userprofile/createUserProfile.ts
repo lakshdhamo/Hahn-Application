@@ -210,11 +210,12 @@ export class CreateUserProfile {
             alert(
               this.localizationService.createUserFailed
             );
-          } else if (response > 0) {
+          } else if (response.id > 0) {
             this.clearData();
-            this.router.navigateToRoute("viewProfile", { id: response, action: "Create" });
+            this.userService.user = response;
+            this.router.navigateToRoute("viewProfile", { id: response.id, action: "Create" });
           } else {
-            alert(this.localizationService.createUserFailed);
+            alert(this.localizationService.createUserFailed + " : " + response);
           }
           this.showLoader = false;
         });
@@ -243,11 +244,11 @@ export class CreateUserProfile {
             alert(
               this.localizationService.updateUserFailed
             );
-          } else if (response > 0) {
+          } else if (response.id > 0) {
             this.clearData();
-            this.router.navigateToRoute("viewProfile", { id: response, action: "Update" });
+            this.router.navigateToRoute("viewProfile", { id: response.id, action: "Update" });
           } else {
-            alert(this.localizationService.updateUserFailed);
+            alert(this.localizationService.updateUserFailed + " : " + response);
           }
           this.showLoader = false;
         });

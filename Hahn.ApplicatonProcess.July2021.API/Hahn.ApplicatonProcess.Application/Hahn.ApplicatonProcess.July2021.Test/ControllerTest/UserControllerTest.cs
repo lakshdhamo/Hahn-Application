@@ -9,6 +9,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
 {
@@ -61,7 +62,7 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
 
             // Act
             var result = _userController.Get(1);
-            
+
             // Assert
             var statusCodeResult = (IStatusCodeActionResult)result;
             Assert.AreEqual(200, statusCodeResult.StatusCode);
@@ -71,6 +72,7 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
         public void CreateUser_ReturnsStatus201Created_When_NewObjectPassed()
         {
             // Arrange
+            //Input Value
             UserVm newsUser = new()
             {
                 Id = 0,
@@ -81,14 +83,27 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
                 LastName = "LUser1",
                 Assets = lstAssets.Take(3).ToList<AssetVm>()
             };
-            _userManager.Setup(x => x.CreateUser(newsUser));
+
+            //Output Value
+            UserVm outputUser = new()
+            {
+                Id = 1,
+                Address = "15/3, North Street",
+                Age = 25,
+                Email = "1@1.com",
+                FirstName = "User1",
+                LastName = "LUser1",
+                Assets = lstAssets.Take(3).ToList<AssetVm>()
+            };
+            _userManager.Setup(x => x.CreateUser(newsUser)).Returns(outputUser);
 
             // Act
-            IActionResult result = _userController.Post(newsUser);
+            ActionResult<UserVm> result = _userController.Post(newsUser);
 
             // Assert
-            var statusCodeResult = (IStatusCodeActionResult)result;
-            Assert.AreEqual(201, statusCodeResult.StatusCode);
+            CreatedResult createdResult = (CreatedResult)result.Result;
+            Assert.AreEqual(201, createdResult.StatusCode);
+            Assert.AreEqual(newsUser.Email, ((UserVm)createdResult.Value).Email);
         }
 
         [Test]
@@ -108,11 +123,11 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
             _userManager.Setup(x => x.CreateUser(newsUser)).Throws(new Exception("First Name should contains at least 3 Characters"));
 
             // Act
-            IActionResult result = _userController.Post(newsUser);
+            ActionResult<UserVm> result = _userController.Post(newsUser);
 
             // Assert
-            var statusCodeResult = (IStatusCodeActionResult)result;
-            Assert.AreEqual(500, statusCodeResult.StatusCode);
+            ObjectResult createdResult = (ObjectResult)result.Result;
+            Assert.AreEqual(500, createdResult.StatusCode);
         }
 
         [Test]
@@ -129,14 +144,27 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
                 LastName = "LUser1",
                 Assets = lstAssets.Take(3).ToList<AssetVm>()
             };
-            _userManager.Setup(x => x.UpdateUser(1, newsUser));
+
+            //Output Value => Modified the age
+            UserVm outputUser = new()
+            {
+                Id = 1,
+                Address = "15/3, North Street",
+                Age = 27,
+                Email = "1@1.com",
+                FirstName = "User1",
+                LastName = "LUser1",
+                Assets = lstAssets.Take(3).ToList<AssetVm>()
+            };
+            _userManager.Setup(x => x.UpdateUser(1, newsUser)).Returns(outputUser);
 
             // Act
-            IActionResult result = _userController.Put(1, newsUser);
+            ActionResult<UserVm> result = _userController.Put(1, newsUser);
 
             // Assert
-            var statusCodeResult = (IStatusCodeActionResult)result;
-            Assert.AreEqual(200, statusCodeResult.StatusCode);
+            OkObjectResult status = (OkObjectResult)result.Result;
+            Assert.AreEqual(200, status.StatusCode);
+            Assert.AreEqual(((UserVm)status.Value).Age, 27);
         }
 
         [Test]
@@ -156,11 +184,11 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
             _userManager.Setup(x => x.UpdateUser(1, newsUser)).Throws(new Exception("First Name should contains at least 3 Characters"));
 
             // Act
-            IActionResult result = _userController.Put(1, newsUser);
+            ActionResult<UserVm> result = _userController.Put(1, newsUser);
 
             // Assert
-            var statusCodeResult = (IStatusCodeActionResult)result;
-            Assert.AreEqual(500, statusCodeResult.StatusCode);
+            var status = (ObjectResult)result.Result;
+            Assert.AreEqual(500, status.StatusCode);
         }
 
         [Test]

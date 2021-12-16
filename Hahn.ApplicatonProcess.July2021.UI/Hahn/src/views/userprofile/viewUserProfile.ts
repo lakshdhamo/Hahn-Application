@@ -60,38 +60,34 @@ export class ViewUserProfile {
   // Contains init operation before page load
   activate = async (params) => {
     try {
-      await this.userService.getUserById(params.id)
-        .then((response) => {
-          if (response.length == 0) {
-            this.errorMsg = this.localizationService.viewErrorMsg;
-            this.showError = true;
-            setTimeout(() => {
-              this.showError = false;
-            }, 2000);
+      this.user = this.userService.user;
+      if (this.user) {
+        if (params.action) {
+          if (params.action == "Create") {
+            this.addSuccessMsg = this.localizationService.addSuccessMsg;
           }
-          else {
-            if (params.action ) {
-              if(params.action == "Create"){
-                this.addSuccessMsg = this.localizationService.addSuccessMsg;
-              }
-              if(params.action == "Update"){
-                this.addSuccessMsg = this.localizationService.updateSuccessMsg;
-              }
-              this.showSuccessMsg = true;
-              setTimeout(() => {
-                this.showSuccessMsg = false;
-              }, 2000);
-            }
-            this.showError = false;
-            this.user = response;
-            if (this.user.assets.length > 0) {
-              this.setSelected(this.user.assets[0]);
-            }
+          if (params.action == "Update") {
+            this.addSuccessMsg = this.localizationService.updateSuccessMsg;
+          }
+          this.showSuccessMsg = true;
+          setTimeout(() => {
+            this.showSuccessMsg = false;
+          }, 2000);
+        }
+        this.showError = false;
+        if (this.user.assets.length > 0) {
+          this.setSelected(this.user.assets[0]);
+        }
+      }
+      else {
+        this.errorMsg = this.localizationService.viewErrorMsg;
+        this.showError = true;
+        setTimeout(() => {
+          this.showError = false;
+        }, 2000);
+      }
 
-          }
-        });
       this.notifier.done();
-
     } catch (error) {
       console.log(error);
     }
@@ -117,8 +113,9 @@ export class ViewUserProfile {
 
   // Edit profile operation
   EditProfile() {
-    this.router.navigateToRoute("editProfile", { id: this.user.id });
     this.userService.user = this.user;
+    this.router.navigateToRoute("editProfile", { id: this.user.id });
+
   }
 
   // Delete profile operation
@@ -133,7 +130,7 @@ export class ViewUserProfile {
         if (!result.wasCancelled) {
           await this.userService.deleteUserProfile(this.user.id);
           this.userService.user = null;
-          this.router.navigateToRoute("homePage", {action: "Delete"});
+          this.router.navigateToRoute("homePage", { action: "Delete" });
         } else {
           console.log("cancelled");
         }

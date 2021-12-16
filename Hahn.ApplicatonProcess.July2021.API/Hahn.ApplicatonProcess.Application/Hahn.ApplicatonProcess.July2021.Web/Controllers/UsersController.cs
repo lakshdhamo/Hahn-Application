@@ -25,7 +25,6 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        // GET: api/<UserController>
         [HttpGet]
         [SwaggerOperation("Gets all the Users' profile details along with Assets")]
         public IEnumerable<UserVm> Get()
@@ -57,14 +56,13 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
 
         }
 
-        // POST api/<UserController>
         [HttpPost]
         [SwaggerOperation("Creates new User profile.")]
         [SwaggerRequestExample(typeof(UserVm), typeof(UserVmExample))]
         [SwaggerResponse(200, "Successfully created User profile", typeof(UserVm))]
         [SwaggerResponse(500, "Model validatation fails or unhandled error occured.", typeof(UserVm))]
         [SwaggerResponse(400, "Model data type mismatch might happen.", typeof(UserVm))]
-        public IActionResult Post([FromBody] UserVm user)
+        public ActionResult<UserVm> Post([FromBody] UserVm user)
         {
             try
             {
@@ -72,7 +70,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
                 if (user == null || !ModelState.IsValid || _userManager.IsUserAlreadyExists(user))
                     return BadRequest("Invalid user");
 
-                int result = _userManager.CreateUser(user);
+                UserVm result = _userManager.CreateUser(user);
                 return Created("/api/User/{id}", result);
             }
             catch (Exception e)
@@ -83,14 +81,13 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
             }
         }
 
-        // PUT api/<UserController>/5
         [HttpPut("{id}")]
         [SwaggerOperation("Updates the User profile.")]
         [SwaggerResponse(200, "Successfully updated User profile", typeof(UserVm))]
         [SwaggerResponse(500, "Model validatation fails or unhandled error occured.", typeof(UserVm))]
         [SwaggerResponse(400, "Model data type mismatch might happen.", typeof(UserVm))]
         [SwaggerRequestExample(typeof(UserVm), typeof(UserVmUpdateExample))]
-        public IActionResult Put(int id, [FromBody] UserVm user)
+        public ActionResult<UserVm> Put(int id, [FromBody] UserVm user)
         {
             try
             {
@@ -98,7 +95,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
                     return BadRequest("Invalid user");
 
                 _logger.LogInformation("User/Put method fired on {date}", DateTime.Now);
-                int result = _userManager.UpdateUser(id, user);
+                UserVm result = _userManager.UpdateUser(id, user);
                 return Ok(result);
             }
             catch (Exception e)
@@ -109,7 +106,6 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
             }
         }
 
-        // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
         [SwaggerOperation("Deletes User profile (soft delete).")]
         public IActionResult Delete(int id)
