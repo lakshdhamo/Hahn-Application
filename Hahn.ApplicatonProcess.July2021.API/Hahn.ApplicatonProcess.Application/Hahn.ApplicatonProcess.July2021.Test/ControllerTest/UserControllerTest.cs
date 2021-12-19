@@ -18,8 +18,8 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
         private readonly Mock<ILogger<UsersController>> _mockLogger;
         private readonly Mock<IUserManager> _userManager;
         private readonly UsersController _userController;
-        private UserVm singleUser;
-        private readonly List<AssetVm> lstAssets = new();
+        private UserDto singleUser;
+        private readonly List<AssetDto> lstAssets = new();
 
         public UserControllerTest()
         {
@@ -42,7 +42,7 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
             }
 
             /// Prepare User profile
-            singleUser = new UserVm()
+            singleUser = new UserDto()
             {
                 Id = 1,
                 Address = "15/3, North Street",
@@ -73,7 +73,7 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
         {
             // Arrange
             //Input Value
-            UserVm newsUser = new()
+            UserDto newsUser = new()
             {
                 Id = 0,
                 Address = "15/3, North Street",
@@ -81,11 +81,11 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
                 Email = "1@1.com",
                 FirstName = "User1",
                 LastName = "LUser1",
-                Assets = lstAssets.Take(3).ToList<AssetVm>()
+                Assets = lstAssets.Take(3).ToList<AssetDto>()
             };
 
             //Output Value
-            UserVm outputUser = new()
+            UserDto outputUser = new()
             {
                 Id = 1,
                 Address = "15/3, North Street",
@@ -93,24 +93,24 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
                 Email = "1@1.com",
                 FirstName = "User1",
                 LastName = "LUser1",
-                Assets = lstAssets.Take(3).ToList<AssetVm>()
+                Assets = lstAssets.Take(3).ToList<AssetDto>()
             };
             _userManager.Setup(x => x.CreateUser(newsUser)).Returns(outputUser);
 
             // Act
-            ActionResult<UserVm> result = _userController.Post(newsUser);
+            ActionResult<UserDto> result = _userController.Post(newsUser);
 
             // Assert
             CreatedResult createdResult = (CreatedResult)result.Result;
             Assert.AreEqual(201, createdResult.StatusCode);
-            Assert.AreEqual(newsUser.Email, ((UserVm)createdResult.Value).Email);
+            Assert.AreEqual(newsUser.Email, ((UserDto)createdResult.Value).Email);
         }
 
         [Test]
         public void CreateUser_ReturnsStatus500Created_When_ValidationFailed()
         {
             // Arrange
-            UserVm newsUser = new()
+            UserDto newsUser = new()
             {
                 Id = 0,
                 Address = "15/3, North Street",
@@ -118,12 +118,12 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
                 Email = "1@1.com",
                 FirstName = "U",
                 LastName = "LUser1",
-                Assets = lstAssets.Take(3).ToList<AssetVm>()
+                Assets = lstAssets.Take(3).ToList<AssetDto>()
             };
             _userManager.Setup(x => x.CreateUser(newsUser)).Throws(new Exception("First Name should contains at least 3 Characters"));
 
             // Act
-            ActionResult<UserVm> result = _userController.Post(newsUser);
+            ActionResult<UserDto> result = _userController.Post(newsUser);
 
             // Assert
             ObjectResult createdResult = (ObjectResult)result.Result;
@@ -134,7 +134,7 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
         public void UpdateUser_ReturnsStatus200_When_CorrectObjectPassed()
         {
             // Arrange
-            UserVm newsUser = new()
+            UserDto newsUser = new()
             {
                 Id = 1,
                 Address = "15/3, North Street",
@@ -142,11 +142,11 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
                 Email = "1@1.com",
                 FirstName = "User1",
                 LastName = "LUser1",
-                Assets = lstAssets.Take(3).ToList<AssetVm>()
+                Assets = lstAssets.Take(3).ToList<AssetDto>()
             };
 
             //Output Value => Modified the age
-            UserVm outputUser = new()
+            UserDto outputUser = new()
             {
                 Id = 1,
                 Address = "15/3, North Street",
@@ -154,24 +154,24 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
                 Email = "1@1.com",
                 FirstName = "User1",
                 LastName = "LUser1",
-                Assets = lstAssets.Take(3).ToList<AssetVm>()
+                Assets = lstAssets.Take(3).ToList<AssetDto>()
             };
             _userManager.Setup(x => x.UpdateUser(1, newsUser)).Returns(outputUser);
 
             // Act
-            ActionResult<UserVm> result = _userController.Put(1, newsUser);
+            ActionResult<UserDto> result = _userController.Put(1, newsUser);
 
             // Assert
             OkObjectResult status = (OkObjectResult)result.Result;
             Assert.AreEqual(200, status.StatusCode);
-            Assert.AreEqual(((UserVm)status.Value).Age, 27);
+            Assert.AreEqual(((UserDto)status.Value).Age, 27);
         }
 
         [Test]
         public void UpdateUser_ReturnsStatus500_When_ValidationFailed()
         {
             // Arrange
-            UserVm newsUser = new()
+            UserDto newsUser = new()
             {
                 Id = 1,
                 Address = "15/3, North Street",
@@ -179,12 +179,12 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
                 Email = "1@1.com",
                 FirstName = "U",
                 LastName = "LUser1",
-                Assets = lstAssets.Take(3).ToList<AssetVm>()
+                Assets = lstAssets.Take(3).ToList<AssetDto>()
             };
             _userManager.Setup(x => x.UpdateUser(1, newsUser)).Throws(new Exception("First Name should contains at least 3 Characters"));
 
             // Act
-            ActionResult<UserVm> result = _userController.Put(1, newsUser);
+            ActionResult<UserDto> result = _userController.Put(1, newsUser);
 
             // Assert
             var status = (ObjectResult)result.Result;
@@ -225,9 +225,9 @@ namespace Hahn.ApplicatonProcess.July2021.Test.ControllerTest
         /// Create AssetVm objects
         /// </summary>
         /// <returns>AssetVm</returns>
-        private AssetVm CreateAssetVm(string assetId, string name, string symbol)
+        private AssetDto CreateAssetVm(string assetId, string name, string symbol)
         {
-            return new AssetVm()
+            return new AssetDto()
             {
                 AssetId = assetId,
                 Name = name,

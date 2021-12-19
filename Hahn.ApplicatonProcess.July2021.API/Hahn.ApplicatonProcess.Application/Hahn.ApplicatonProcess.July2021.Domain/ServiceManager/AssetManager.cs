@@ -19,7 +19,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         /// Gets all the assets from https://api.coincap.io/v2/assets
         /// </summary>
         /// <returns>Collection of assets</returns>
-        public async Task<List<AssetDetailVm>> GetAssetDetailsAsync()
+        public async Task<List<AssetDetailDto>> GetAssetDetailsAsync()
         {
             return await GetAssetDetailsFromApiAsync().ConfigureAwait(false);
         }
@@ -29,23 +29,23 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         /// </summary>
         /// <param name="id">Asset id</param>
         /// <returns>Returns AssetDetailVm detail</returns>
-        public async Task<AssetDetailVm> GetAssetDetailByIdAsync(string id)
+        public async Task<AssetDetailDto> GetAssetDetailByIdAsync(string id)
         {
-            List<AssetDetailVm> assetDeatils = await GetAssetDetailsFromApiAsync().ConfigureAwait(false);
-            AssetDetailVm assetDetail = assetDeatils.FirstOrDefault(x => x.Id == id);
+            List<AssetDetailDto> assetDeatils = await GetAssetDetailsFromApiAsync().ConfigureAwait(false);
+            AssetDetailDto assetDetail = assetDeatils.FirstOrDefault(x => x.Id == id);
             return assetDetail;
         }
 
         /// <summary>
         /// Validate the associated asset details
         /// </summary>
-        /// <param name="userVm"></param>
+        /// <param name="userDto"></param>
         /// <returns>Collection of failed validation errors</returns>
-        public string AssetValidation(UserVm userVm)
+        public string AssetValidation(UserDto userDto)
         {
             string error = string.Empty;
-            List<AssetDetailVm> lstAssets = GetAssetDetailsFromApiAsync().Result;
-            foreach (AssetVm ast in userVm.Assets)
+            List<AssetDetailDto> lstAssets = GetAssetDetailsFromApiAsync().Result;
+            foreach (AssetDto ast in userDto.Assets)
             {
                 if (!lstAssets.Any(x => x.Id == ast.AssetId && x.Name == ast.Name && x.Symbol == ast.Symbol))
                 {
@@ -60,9 +60,9 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
         /// Get assets from "https://api.coincap.io/v2/assets"
         /// </summary>
         /// <returns></returns>
-        private async Task<List<AssetDetailVm>> GetAssetDetailsFromApiAsync()
+        private async Task<List<AssetDetailDto>> GetAssetDetailsFromApiAsync()
         {
-            List<AssetDetailVm> assetDeatils = new();
+            List<AssetDetailDto> assetDeatils = new();
             using (var client = new HttpClient())
             {
 
@@ -79,7 +79,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ServiceManager
 
                     foreach (var item in dynJson)
                     {
-                        assetDeatils = item.Value.ToObject<List<AssetDetailVm>>();
+                        assetDeatils = item.Value.ToObject<List<AssetDetailDto>>();
                         break;
                     }
 

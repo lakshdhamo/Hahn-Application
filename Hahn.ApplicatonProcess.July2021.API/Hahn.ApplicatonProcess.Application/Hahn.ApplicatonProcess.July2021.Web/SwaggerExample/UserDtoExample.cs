@@ -8,32 +8,32 @@ using System.Threading.Tasks;
 
 namespace Hahn.ApplicatonProcess.July2021.Web.swaggerExample
 {
-    public class UserVmUpdateExample : IExamplesProvider<UserVm>
+    public class UserDtoExample : IExamplesProvider<UserDto>
     {
         /// <summary>
-        /// Gets the sample data for User model update operation
+        /// gets the sample data for User model insert operation
         /// </summary>
         /// <returns></returns>
-        public UserVm GetExamples()
+        public UserDto GetExamples()
         {
-            return new UserVm
+            return new UserDto
             {
-                Id = 1,
+                Id = 0,
                 Address = "15/3, North Street",
                 Age = 25,
                 Email = "1@gmail.com",
                 FirstName = "Lakshmanan",
                 LastName = "Dhamotharan",
-                Assets = new List<AssetVm>()
+                Assets = new List<AssetDto>()
                 {
-                    new AssetVm()
+                    new AssetDto()
                     {
                         AssetId = "bitcoin",
                         Name = "Bitcoin",
                         Symbol = "BTC"
                     },
 
-                    new AssetVm()
+                    new AssetDto()
                     {
                         AssetId = "ethereum",
                         Name = "Ethereum",

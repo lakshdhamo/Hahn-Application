@@ -52,7 +52,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web
                 });
                 c.ExampleFilters();
             });
-            services.AddSwaggerExamplesFromAssemblyOf<UserVmExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<UserDtoExample>();
 
             #region "Entity Framework Inmemory Database"
             services.AddDbContext<ApplicationContext>(options => options.UseInMemoryDatabase(databaseName: "UserProfile"));

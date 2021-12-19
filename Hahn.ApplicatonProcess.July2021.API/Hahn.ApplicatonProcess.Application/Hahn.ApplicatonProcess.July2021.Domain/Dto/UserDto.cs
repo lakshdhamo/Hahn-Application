@@ -10,7 +10,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.VMs
     /// <summary>
     /// Holds User information
     /// </summary>
-    public class UserVm
+    public record UserDto
     {
         /// <summary>
         /// User Id
@@ -45,6 +45,6 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.VMs
         /// <summary>
         /// User's Asset's list
         /// </summary>
-        public List<AssetVm> Assets { get; set; }
+        public List<AssetDto> Assets { get; set; }
     }
 }

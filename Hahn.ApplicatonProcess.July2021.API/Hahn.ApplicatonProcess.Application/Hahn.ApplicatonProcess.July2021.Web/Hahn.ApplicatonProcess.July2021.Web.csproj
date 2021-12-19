@@ -27,8 +27,4 @@
     <ProjectReference Include="..\Hahn.ApplicatonProcess.July2021.Data\Hahn.ApplicatonProcess.July2021.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Logs\" />
-  </ItemGroup>
-
 </Project>

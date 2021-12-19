@@ -13,20 +13,20 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.Interfaces.ServiceInterface
         /// Gets all the assets from https://api.coincap.io/v2/assets
         /// </summary>
         /// <returns>Collection of assets</returns>
-        Task<List<AssetDetailVm>> GetAssetDetailsAsync();
+        Task<List<AssetDetailDto>> GetAssetDetailsAsync();
 
         /// <summary>
         /// Gets the specified asset from https://api.coincap.io/v2/assets
         /// </summary>
         /// <param name="id">Asset id</param>
         /// <returns>Returns AssetDetailVm detail</returns>
-        Task<AssetDetailVm> GetAssetDetailByIdAsync(string id);
+        Task<AssetDetailDto> GetAssetDetailByIdAsync(string id);
 
         /// <summary>
         /// Validate the associated asset details
         /// </summary>
-        /// <param name="userVm"></param>
+        /// <param name="userDto"></param>
         /// <returns>RCollection of failed validation errors</returns>
-        string AssetValidation(UserVm userVm);
+        string AssetValidation(UserDto userDto);
     }
 }

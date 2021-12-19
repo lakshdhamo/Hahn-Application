@@ -27,16 +27,16 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
 
         [HttpGet]
         [SwaggerOperation("Gets all the Users' profile details along with Assets")]
-        public IEnumerable<UserVm> Get()
+        public IEnumerable<UserDto> Get()
         {
             return _userManager.GetUsers();
         }
 
         [HttpGet("{id}")]
         [SwaggerOperation("Gets User profile for the supplied UserId")]
-        [SwaggerResponse(200, "Successfully found the User", typeof(UserVm))]
-        [SwaggerResponse(500, "Model validatation fails or unhandled error occured.", typeof(UserVm))]
-        [SwaggerResponse(400, "Model data type mismatch might happen.", typeof(UserVm))]
+        [SwaggerResponse(200, "Successfully found the User", typeof(UserDto))]
+        [SwaggerResponse(500, "Model validatation fails or unhandled error occured.", typeof(UserDto))]
+        [SwaggerResponse(400, "Model data type mismatch might happen.", typeof(UserDto))]
         public IActionResult Get(int id)
         {
             try
@@ -58,11 +58,11 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
 
         [HttpPost]
         [SwaggerOperation("Creates new User profile.")]
-        [SwaggerRequestExample(typeof(UserVm), typeof(UserVmExample))]
-        [SwaggerResponse(200, "Successfully created User profile", typeof(UserVm))]
-        [SwaggerResponse(500, "Model validatation fails or unhandled error occured.", typeof(UserVm))]
-        [SwaggerResponse(400, "Model data type mismatch might happen.", typeof(UserVm))]
-        public ActionResult<UserVm> Post([FromBody] UserVm user)
+        [SwaggerRequestExample(typeof(UserDto), typeof(UserDtoExample))]
+        [SwaggerResponse(200, "Successfully created User profile", typeof(UserDto))]
+        [SwaggerResponse(500, "Model validatation fails or unhandled error occured.", typeof(UserDto))]
+        [SwaggerResponse(400, "Model data type mismatch might happen.", typeof(UserDto))]
+        public ActionResult<UserDto> Post([FromBody] UserDto user)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
                 if (user == null || !ModelState.IsValid || _userManager.IsUserAlreadyExists(user))
                     return BadRequest("Invalid user");
 
-                UserVm result = _userManager.CreateUser(user);
+                UserDto result = _userManager.CreateUser(user);
                 return Created("/api/User/{id}", result);
             }
             catch (Exception e)
@@ -83,11 +83,11 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
 
         [HttpPut("{id}")]
         [SwaggerOperation("Updates the User profile.")]
-        [SwaggerResponse(200, "Successfully updated User profile", typeof(UserVm))]
-        [SwaggerResponse(500, "Model validatation fails or unhandled error occured.", typeof(UserVm))]
-        [SwaggerResponse(400, "Model data type mismatch might happen.", typeof(UserVm))]
-        [SwaggerRequestExample(typeof(UserVm), typeof(UserVmUpdateExample))]
-        public ActionResult<UserVm> Put(int id, [FromBody] UserVm user)
+        [SwaggerResponse(200, "Successfully updated User profile", typeof(UserDto))]
+        [SwaggerResponse(500, "Model validatation fails or unhandled error occured.", typeof(UserDto))]
+        [SwaggerResponse(400, "Model data type mismatch might happen.", typeof(UserDto))]
+        [SwaggerRequestExample(typeof(UserDto), typeof(UserDtoUpdateExample))]
+        public ActionResult<UserDto> Put(int id, [FromBody] UserDto user)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace Hahn.ApplicatonProcess.July2021.Web.Controllers
                     return BadRequest("Invalid user");
 
                 _logger.LogInformation("User/Put method fired on {date}", DateTime.Now);
-                UserVm result = _userManager.UpdateUser(id, user);
+                UserDto result = _userManager.UpdateUser(id, user);
                 return Ok(result);
             }
             catch (Exception e)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hahn.ApplicatonProcess.July2021.Domain.VMs
 {
-    public record AssetVm
+    public record AssetDto
     {
         /// <summary>
         /// Asset Id

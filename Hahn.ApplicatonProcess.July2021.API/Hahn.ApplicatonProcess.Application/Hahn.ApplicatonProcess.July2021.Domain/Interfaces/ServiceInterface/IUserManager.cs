@@ -15,28 +15,28 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.Interfaces.ServiceInterface
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        UserVm CreateUser(UserVm user);
+        UserDto CreateUser(UserDto user);
 
         /// <summary>
         /// Gets all the users' details
         /// </summary>
         /// <returns></returns>
-        List<UserVm> GetUsers();
+        List<UserDto> GetUsers();
 
         /// <summary>
         /// Get the User by Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        UserVm GetUser(in int id);
+        UserDto GetUser(in int id);
 
         /// <summary>
         /// Update the user data
         /// </summary>
         /// <param name="id">Unique id</param>
-        /// <param name="userVm">Entity to be modified</param>
+        /// <param name="userDto">Entity to be modified</param>
         /// <returns>Returns the updated User profile id</returns>
-        UserVm UpdateUser(in int id, UserVm user);
+        UserDto UpdateUser(in int id, UserDto user);
 
         /// <summary>
         /// Removes user.
@@ -48,11 +48,11 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.Interfaces.ServiceInterface
         /// Check whether already system has same user. 
         /// Considered Email as the Candidate Key
         /// </summary>
-        /// <param name="userVM"></param>
+        /// <param name="userDto"></param>
         /// <returns>
         /// True: If user already exists
         /// False: User doesn't exists
         /// </returns>
-        bool IsUserAlreadyExists(UserVm userVM);
+        bool IsUserAlreadyExists(UserDto userDto);
     }
 }

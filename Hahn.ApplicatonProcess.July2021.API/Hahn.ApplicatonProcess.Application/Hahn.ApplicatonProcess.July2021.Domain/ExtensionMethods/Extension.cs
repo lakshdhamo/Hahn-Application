@@ -14,15 +14,15 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ExtensionMethods
     public static class Extension
     {
         /// <summary>
-        /// Extracs Assets from UserVm
+        /// Extracs Assets from UserDto
         /// </summary>
-        /// <param name="userVm"></param>
+        /// <param name="userDto"></param>
         /// <returns>List of associated Assets</returns>
-        public static List<Asset> ExtractAssets(this UserVm userVm)
+        public static List<Asset> ExtractAssets(this UserDto userDto)
         {
-            if (userVm.Assets.Any())
+            if (userDto.Assets.Any())
             {
-                return userVm.Assets.Select(x =>
+                return userDto.Assets.Select(x =>
                                             new Asset()
                                             {
                                                 AssetId = x.AssetId,
@@ -41,31 +41,31 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ExtensionMethods
         /// </summary>
         /// <param name="user"></param>
         /// <returns>List of associated AssetVms</returns>
-        public static List<AssetVm> ExtractAssetVms(this User user)
+        public static List<AssetDto> ExtractAssetDtos(this User user)
         {
             if (user.Assets.Any())
             {
                 return user.Assets.Select(x =>
-                                        new AssetVm()
+                                        new AssetDto()
                                         {
                                             AssetId = x.AssetId,
                                             Name = x.Name,
                                             Symbol = x.Symbol
-                                        }).ToList<AssetVm>();
+                                        }).ToList<AssetDto>();
             }
             else
             {
-                return new List<AssetVm>();
+                return new List<AssetDto>();
             }
 
         }
 
         /// <summary>
-        /// Extracs UserVm from User
+        /// Extracs UserDto from User
         /// </summary>
         /// <param name="user">User entity</param>
-        /// <returns>UserVM</returns>
-        public static UserVm ExtractUserVm(this User user) => new UserVm()
+        /// <returns>UserDto</returns>
+        public static UserDto ExtractUserDto(this User user) => new UserDto()
         {
             FirstName = user.FirstName,
             LastName = user.LastName,
@@ -73,7 +73,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.ExtensionMethods
             Age = user.Age,
             Email = user.Email,
             Id = user.Id,
-            Assets = user.ExtractAssetVms()
+            Assets = user.ExtractAssetDtos()
         };
 
     }

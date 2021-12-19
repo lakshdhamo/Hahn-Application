@@ -11,7 +11,7 @@ namespace Hahn.ApplicatonProcess.July2021.Domain.Validators
     /// <summary>
     /// Validates the User model
     /// </summary>
-    public class UserValidator : AbstractValidator<UserVm>
+    public class UserValidator : AbstractValidator<UserDto>
     {
         public UserValidator()
         {
