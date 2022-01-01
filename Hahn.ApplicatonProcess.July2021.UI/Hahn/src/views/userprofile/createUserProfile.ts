@@ -42,7 +42,7 @@ export class CreateUserProfile {
   validation: any;
   standardGetMessage: any;
   user: User;
-  assets: [];
+  assets: any[];
   @observable query;
   selectedAssets = [];
   private isCreatePage = true;
@@ -99,17 +99,20 @@ export class CreateUserProfile {
   }
 
   // Handle Asset's Autocomplete functionality
-  queryChanged(newval, oldval) {
-    try {
+  queryChanged(newval: string, _oldval: string) {
+    if (this.assets) {
+      this.assets = this.userService.assets.filter(ast => ast.id.includes(newval));
+      return;
+    }
 
+    try {
       this.userService
-        .findAsset(newval)
-        .then((result) => {
+        .findAsset()
+        .then((result: any[]) => {
           if (result !== undefined) {
-            this.assets = result;
+            this.assets = result.filter(ast => ast.id.includes(newval));
           }
         });
-
     } catch (error) {
       console.log(error);
     }
@@ -289,7 +292,7 @@ export class CreateUserProfile {
     //Custom validation for checking between two numbers
     ValidationRules.customRule(
       "integerRange",
-      (value, obj, min, max) => {
+      (value, _obj, min, max) => {
         var num = Number.parseInt(value);
         return (
           num === null ||

@@ -7,6 +7,7 @@ import { appValue } from "../config/appValue";
 export class UserService {
   private http: HttpClient;
   public user: User;
+  public assets: any;
 
   constructor(http: HttpClient, user: User) {
     this.user = user;
@@ -91,12 +92,13 @@ export class UserService {
       });
   }
 
-  findAsset(newval) {
+  findAsset() {
     return this.http
       .fetch('assets')
       .then((response) => response.json())
       .then((asset) => {
-        return asset.filter(ast => ast.name.includes(newval));
+        this.assets = asset;
+        return asset;
       })
       .catch((error) => {
         console.log("Error retrieving user.", error);
