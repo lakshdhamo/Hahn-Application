@@ -1,13 +1,13 @@
 # Hahn-Application
 
-Prerequisite:
+**Prerequisite:**
 1. Download the source code and unzip it in root folder (eg: d:). due to long path, it might give error.
 
-Steps to setup Backend:
+**Steps to setup Backend:**
 1. Install Visual Studio 2019
 2. Install .NET 5
 
-Steps to setup Frontend:
+**Steps to setup Frontend:**
 1. Install latest Node.js: https://nodejs.org/en/
 2. Install latest typescript : npm install -g typescript
 3. Navigate to project folder
@@ -17,7 +17,7 @@ Steps to setup Frontend:
 6. Command to Run: au run --env run --watch 
 7. Ensure the API's post number in Aurelia project. We can find the custom config file at location ./resources/config. This config file contains API path and locale value.
 
-Concepts used in API:
+**Concepts used in API:**
 1. Used In Memory database
 2. Used .NET 5 API project
 3. Used FluentValidator to validate the model
@@ -27,7 +27,7 @@ Concepts used in API:
 7. NUnit to test the APIs end point with different input values
 8. Used InMemory Cache to cache the output values
 
-Concepts used in UI:
+**Concepts used in UI:**
 1. Aurelia UI framework
 2. Used I18N for localization
 3. Bootstrap for UI design
@@ -38,4 +38,4 @@ Concepts used in UI:
 
 
 
-
+**Note:** To run the WEB Api service in docker compose `docker-compose up`
