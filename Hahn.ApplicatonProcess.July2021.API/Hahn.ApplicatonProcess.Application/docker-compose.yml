@@ -6,3 +6,5 @@ services:
     build:
       context: .
       dockerfile: Hahn.ApplicatonProcess.July2021.Web/Dockerfile
+    ports:
+        - 10005:443
